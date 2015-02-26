@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4604372b1fda40be987694e2f51b0cd1" Name="Diagram1">
+        <EntityTypeShape EntityType="GradebookModel.Assignment" Width="1.5" PointX="7.5" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GradebookModel.Course" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GradebookModel.GradeDistribution" Width="1.5" PointX="5.25" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GradebookModel.Student" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GradebookModel.Teacher" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="GradebookModel.FK_Assignment_0" ManuallyRouted="false" />
+        <AssociationConnector Association="GradebookModel.FK_Course_0" ManuallyRouted="false" />
+        <AssociationConnector Association="GradebookModel.FK_GradeDistribution_0" ManuallyRouted="false" />
+        <AssociationConnector Association="GradebookModel.EnrolledIn" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="GradebookModel.Undertake" Width="1.5" PointX="6.625" PointY="3.625" />
+        <AssociationConnector Association="GradebookModel.FK_Undertakes_0" />
+        <AssociationConnector Association="GradebookModel.FK_Undertakes_1" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

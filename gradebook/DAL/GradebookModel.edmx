@@ -1,0 +1,492 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="GradebookModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Assignment">
+          <Key>
+            <PropertyRef Name="AssignmentID" />
+          </Key>
+          <Property Name="PointsPossible" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="GradeID" Type="int" Nullable="false" />
+          <Property Name="AssignmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="CourseID" />
+          </Key>
+          <Property Name="CourseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CourseNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Term" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="TeacherID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EnrolledIn">
+          <Key>
+            <PropertyRef Name="StudentID" />
+            <PropertyRef Name="CourseID" />
+          </Key>
+          <Property Name="StudentID" Type="int" Nullable="false" />
+          <Property Name="CourseID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GradeDistribution">
+          <Key>
+            <PropertyRef Name="GradeID" />
+          </Key>
+          <Property Name="GradeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Category" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Weight" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CourseID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="StudentID" />
+          </Key>
+          <Property Name="StudentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="TeacherID" />
+          </Key>
+          <Property Name="TeacherID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Undertakes">
+          <Key>
+            <PropertyRef Name="AssignmentID" />
+            <PropertyRef Name="StudentID" />
+          </Key>
+          <Property Name="AssignmentID" Type="int" Nullable="false" />
+          <Property Name="StudentID" Type="int" Nullable="false" />
+          <Property Name="Points" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Assignment_0">
+          <End Role="GradeDistribution" Type="Self.GradeDistribution" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Assignment" Type="Self.Assignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GradeDistribution">
+              <PropertyRef Name="GradeID" />
+            </Principal>
+            <Dependent Role="Assignment">
+              <PropertyRef Name="GradeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Course_0">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Course" Type="Self.Course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="TeacherID" />
+            </Principal>
+            <Dependent Role="Course">
+              <PropertyRef Name="TeacherID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EnrolledIn_0">
+          <End Role="Student" Type="Self.Student" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EnrolledIn" Type="Self.EnrolledIn" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="EnrolledIn">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EnrolledIn_1">
+          <End Role="Course" Type="Self.Course" Multiplicity="1" />
+          <End Role="EnrolledIn" Type="Self.EnrolledIn" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="CourseID" />
+            </Principal>
+            <Dependent Role="EnrolledIn">
+              <PropertyRef Name="CourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GradeDistribution_0">
+          <End Role="Course" Type="Self.Course" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="GradeDistribution" Type="Self.GradeDistribution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="CourseID" />
+            </Principal>
+            <Dependent Role="GradeDistribution">
+              <PropertyRef Name="CourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Undertakes_0">
+          <End Role="Assignment" Type="Self.Assignment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Undertakes" Type="Self.Undertakes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Assignment">
+              <PropertyRef Name="AssignmentID" />
+            </Principal>
+            <Dependent Role="Undertakes">
+              <PropertyRef Name="AssignmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Undertakes_1">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="Undertakes" Type="Self.Undertakes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="Undertakes">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="AddCourse" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cName" Type="nvarchar" Mode="In" />
+          <Parameter Name="term" Type="nvarchar" Mode="In" />
+          <Parameter Name="year" Type="int" Mode="In" />
+          <Parameter Name="Description" Type="nvarchar" Mode="In" />
+          <Parameter Name="TeacherID" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="GradebookModelStoreContainer">
+          <EntitySet Name="Assignment" EntityType="Self.Assignment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EnrolledIn" EntityType="Self.EnrolledIn" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GradeDistribution" EntityType="Self.GradeDistribution" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teacher" EntityType="Self.Teacher" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Undertakes" EntityType="Self.Undertakes" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Assignment_0" Association="Self.FK_Assignment_0">
+            <End Role="GradeDistribution" EntitySet="GradeDistribution" />
+            <End Role="Assignment" EntitySet="Assignment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Course_0" Association="Self.FK_Course_0">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Course" EntitySet="Course" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EnrolledIn_0" Association="Self.FK_EnrolledIn_0">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="EnrolledIn" EntitySet="EnrolledIn" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EnrolledIn_1" Association="Self.FK_EnrolledIn_1">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="EnrolledIn" EntitySet="EnrolledIn" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GradeDistribution_0" Association="Self.FK_GradeDistribution_0">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="GradeDistribution" EntitySet="GradeDistribution" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Undertakes_0" Association="Self.FK_Undertakes_0">
+            <End Role="Assignment" EntitySet="Assignment" />
+            <End Role="Undertakes" EntitySet="Undertakes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Undertakes_1" Association="Self.FK_Undertakes_1">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="Undertakes" EntitySet="Undertakes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GradebookModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Assignment">
+          <Key>
+            <PropertyRef Name="AssignmentID" />
+          </Key>
+          <Property Name="PointsPossible" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="GradeID" Type="Int32" Nullable="false" />
+          <Property Name="AssignmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="GradeDistribution" Relationship="Self.FK_Assignment_0" FromRole="Assignment" ToRole="GradeDistribution" />
+          <NavigationProperty Name="Undertakes" Relationship="GradebookModel.FK_Undertakes_0" FromRole="Assignment" ToRole="Undertake" />
+        </EntityType>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="CourseID" />
+          </Key>
+          <Property Name="CourseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CourseNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Term" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="TeacherID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Teacher" Relationship="Self.FK_Course_0" FromRole="Course" ToRole="Teacher" />
+          <NavigationProperty Name="GradeDistributions" Relationship="Self.FK_GradeDistribution_0" FromRole="Course" ToRole="GradeDistribution" />
+          <NavigationProperty Name="Students" Relationship="Self.EnrolledIn" FromRole="Course" ToRole="Student" />
+        </EntityType>
+        <EntityType Name="GradeDistribution">
+          <Key>
+            <PropertyRef Name="GradeID" />
+          </Key>
+          <Property Name="GradeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Weight" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CourseID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Assignments" Relationship="Self.FK_Assignment_0" FromRole="GradeDistribution" ToRole="Assignment" />
+          <NavigationProperty Name="Course" Relationship="Self.FK_GradeDistribution_0" FromRole="GradeDistribution" ToRole="Course" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="StudentID" />
+          </Key>
+          <Property Name="StudentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Courses" Relationship="Self.EnrolledIn" FromRole="Student" ToRole="Course" />
+          <NavigationProperty Name="Undertakes" Relationship="GradebookModel.FK_Undertakes_1" FromRole="Student" ToRole="Undertake" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="TeacherID" />
+          </Key>
+          <Property Name="TeacherID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Courses" Relationship="Self.FK_Course_0" FromRole="Teacher" ToRole="Course" />
+        </EntityType>
+        <Association Name="FK_Assignment_0">
+          <End Role="GradeDistribution" Type="Self.GradeDistribution" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Assignment" Type="Self.Assignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GradeDistribution">
+              <PropertyRef Name="GradeID" />
+            </Principal>
+            <Dependent Role="Assignment">
+              <PropertyRef Name="GradeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Course_0">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Course" Type="Self.Course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="TeacherID" />
+            </Principal>
+            <Dependent Role="Course">
+              <PropertyRef Name="TeacherID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GradeDistribution_0">
+          <End Role="Course" Type="Self.Course" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="GradeDistribution" Type="Self.GradeDistribution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="CourseID" />
+            </Principal>
+            <Dependent Role="GradeDistribution">
+              <PropertyRef Name="CourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EnrolledIn">
+          <End Role="Student" Type="Self.Student" Multiplicity="*" />
+          <End Role="Course" Type="Self.Course" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="GradebookEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Assignments" EntityType="Self.Assignment" />
+          <EntitySet Name="Courses" EntityType="Self.Course" />
+          <EntitySet Name="GradeDistributions" EntityType="Self.GradeDistribution" />
+          <EntitySet Name="Students" EntityType="Self.Student" />
+          <EntitySet Name="Teachers" EntityType="Self.Teacher" />
+          <AssociationSet Name="FK_Assignment_0" Association="Self.FK_Assignment_0">
+            <End Role="GradeDistribution" EntitySet="GradeDistributions" />
+            <End Role="Assignment" EntitySet="Assignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Course_0" Association="Self.FK_Course_0">
+            <End Role="Teacher" EntitySet="Teachers" />
+            <End Role="Course" EntitySet="Courses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GradeDistribution_0" Association="Self.FK_GradeDistribution_0">
+            <End Role="Course" EntitySet="Courses" />
+            <End Role="GradeDistribution" EntitySet="GradeDistributions" />
+          </AssociationSet>
+          <AssociationSet Name="EnrolledIn" Association="Self.EnrolledIn">
+            <End Role="Student" EntitySet="Students" />
+            <End Role="Course" EntitySet="Courses" />
+          </AssociationSet>
+          <FunctionImport Name="AddCourse">
+            <Parameter Name="cName" Mode="In" Type="String" />
+            <Parameter Name="term" Mode="In" Type="String" />
+            <Parameter Name="year" Mode="In" Type="Int32" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="TeacherID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Undertakes" EntityType="GradebookModel.Undertake" />
+          <AssociationSet Name="FK_Undertakes_0" Association="GradebookModel.FK_Undertakes_0">
+            <End Role="Assignment" EntitySet="Assignments" />
+            <End Role="Undertake" EntitySet="Undertakes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Undertakes_1" Association="GradebookModel.FK_Undertakes_1">
+            <End Role="Student" EntitySet="Students" />
+            <End Role="Undertake" EntitySet="Undertakes" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Undertake">
+          <Key>
+            <PropertyRef Name="AssignmentID" />
+            <PropertyRef Name="StudentID" />
+          </Key>
+          <Property Name="AssignmentID" Type="Int32" Nullable="false" />
+          <Property Name="StudentID" Type="Int32" Nullable="false" />
+          <Property Name="Points" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Assignment" Relationship="GradebookModel.FK_Undertakes_0" FromRole="Undertake" ToRole="Assignment" />
+          <NavigationProperty Name="Student" Relationship="GradebookModel.FK_Undertakes_1" FromRole="Undertake" ToRole="Student" />
+        </EntityType>
+        <Association Name="FK_Undertakes_0">
+          <End Type="GradebookModel.Assignment" Role="Assignment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="GradebookModel.Undertake" Role="Undertake" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Assignment">
+              <PropertyRef Name="AssignmentID" />
+            </Principal>
+            <Dependent Role="Undertake">
+              <PropertyRef Name="AssignmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Undertakes_1">
+          <End Type="GradebookModel.Student" Role="Student" Multiplicity="1" />
+          <End Type="GradebookModel.Undertake" Role="Undertake" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="Undertake">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GradebookModelStoreContainer" CdmEntityContainer="GradebookEntities">
+          <EntitySetMapping Name="Assignments">
+            <EntityTypeMapping TypeName="GradebookModel.Assignment">
+              <MappingFragment StoreEntitySet="Assignment">
+                <ScalarProperty Name="PointsPossible" ColumnName="PointsPossible" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="GradeID" ColumnName="GradeID" />
+                <ScalarProperty Name="AssignmentID" ColumnName="AssignmentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Courses">
+            <EntityTypeMapping TypeName="GradebookModel.Course">
+              <MappingFragment StoreEntitySet="Course">
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+                <ScalarProperty Name="CourseNumber" ColumnName="CourseNumber" />
+                <ScalarProperty Name="Term" ColumnName="Term" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GradeDistributions">
+            <EntityTypeMapping TypeName="GradebookModel.GradeDistribution">
+              <MappingFragment StoreEntitySet="GradeDistribution">
+                <ScalarProperty Name="GradeID" ColumnName="GradeID" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Students">
+            <EntityTypeMapping TypeName="GradebookModel.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teachers">
+            <EntityTypeMapping TypeName="GradebookModel.Teacher">
+              <MappingFragment StoreEntitySet="Teacher">
+                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="EnrolledIn" TypeName="GradebookModel.EnrolledIn" StoreEntitySet="EnrolledIn">
+            <EndProperty Name="Student">
+              <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+            </EndProperty>
+            <EndProperty Name="Course">
+              <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="AddCourse" FunctionName="GradebookModel.Store.AddCourse" />
+          <EntitySetMapping Name="Undertakes">
+            <EntityTypeMapping TypeName="GradebookModel.Undertake">
+              <MappingFragment StoreEntitySet="Undertakes">
+                <ScalarProperty Name="Points" ColumnName="Points" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="AssignmentID" ColumnName="AssignmentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
