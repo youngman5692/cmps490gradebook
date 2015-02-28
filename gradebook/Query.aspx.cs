@@ -15,9 +15,17 @@ namespace gradebook
             if (!this.IsPostBack) //On first page load load default tables
             {
                 fillGrid3();
-                Label1.Text = "p";
+                Label1.Text = "";
                 fillDefault();
+                fillDropDownClass();
             }
+        }
+
+        protected void fillDropDownClass()
+        {
+            DropDownList1.Items.Add(new ListItem("Fall", "Fall"));
+            DropDownList1.Items.Add(new ListItem("Winter", "Winter"));
+            DropDownList1.Items.Add(new ListItem("Spring", "Spring"));
         }
 
         public void fillDefault()
@@ -69,25 +77,40 @@ namespace gradebook
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            using(var context = new GradebookEntities())
+            if (TextBox2.Text != "")
             {
-                Course course = context.Courses.FirstOrDefault(c => c.CourseNumber == "PHIL316");
-                Student student = context.Students.FirstOrDefault(s => s.Email==TextBox2.Text);
-                course.Students.Add(student);
+                using (var context = new GradebookEntities())
+                {
+                    Course course = context.Courses.FirstOrDefault(c => c.CourseNumber == DropDownList2.SelectedValue);
+                    Student student = context.Students.FirstOrDefault(s => s.Email == TextBox2.Text);
+                    course.Students.Add(student);
 
-                context.SaveChanges();
+                    context.SaveChanges();
 
-                var l2equery = from s in context.Students where s.Email.Contains(TextBox1.Text) select s.Courses;
-                var courses = l2equery.FirstOrDefault();
+                    var l2equery = from s in context.Students where s.Email.Contains(TextBox1.Text) select s.Courses;
+                    var courses = l2equery.FirstOrDefault();
 
-                GridView2.DataSource = courses;
-                GridView2.DataBind();
+                    GridView2.DataSource = courses;
+                    GridView2.DataBind();
+                }
             }
         }
 
         protected void Button2_Click(object sender, EventArgs e)
         {
             fillGrid3();
+        }
+
+        protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            using (var context = new GradebookEntities())
+            {
+                var l2equery = from c in context.Courses where c.Year >= DateTime.Now.Year && c.Term == DropDownList1.SelectedValue select c;
+                var courses = l2equery.ToList();
+
+                DropDownList2.DataSource = courses;
+                DropDownList2.DataBind();
+            }
         }
     }
 }

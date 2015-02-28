@@ -2,8 +2,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <asp:Panel ID="Panel" runat="server" DefaultButton="Button2">
-    <asp:TextBox ID="TextBox1" runat="server" OnTextChanged="TextBox1_TextChanged"></asp:TextBox>
-    <asp:Button ID="Button2" runat="server" Text="Search" OnClick="Button2_Click" />
+        <asp:TextBox ID="TextBox1" runat="server" OnTextChanged="TextBox1_TextChanged"></asp:TextBox>
+        <asp:Button ID="Button2" runat="server" Text="Search" OnClick="Button2_Click" />
     </asp:Panel>
 
     <br />
@@ -20,6 +20,7 @@
         <SortedDescendingCellStyle BackColor="#D4DFE1" />
         <SortedDescendingHeaderStyle BackColor="#15524A" />
     </asp:GridView>
+    <br />
     <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
     <br />
 
@@ -37,14 +38,26 @@
         <Columns>
             <asp:BoundField DataField="CourseNumber" HeaderText="Course" ItemStyle-Width="150" />
             <asp:BoundField DataField="Description" HeaderText="Description" ItemStyle-Width="150" />
+            <asp:BoundField DataField="Year" HeaderText="Year" ItemStyle-Width="150" />
+            <asp:BoundField DataField="Term" HeaderText="Term" ItemStyle-Width="150" />
     </Columns>
     </asp:GridView>
 
     <br />
-    <asp:Panel ID="searchPanel" runat="server" DefaultButton="Button1">
-        <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
-        <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Add" />
-    </asp:Panel>
+    <asp:UpdatePanel ID="search" runat="server"  DefaultButton="Button1">
+        <Triggers>
+            <asp:AsyncPostBackTrigger controlid="DropDownList1" eventname="SelectedIndexChanged" />
+        </Triggers>
+        <ContentTemplate>
+            <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="true" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged">
+            </asp:DropDownList>
+            <asp:DropDownList ID="DropDownList2" runat="server" DataValueField="CourseNumber">
+            </asp:DropDownList>
+            <br />
+            <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Add" />
+        </ContentTemplate>
+    </asp:UpdatePanel>
     <br />
 
     </asp:Content>
