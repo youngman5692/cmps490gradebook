@@ -15,7 +15,7 @@ namespace gradebook
             if (!this.IsPostBack) //On first page load load default tables
             {
                 fillGrid3();
-                Label1.Text = "";
+                Label1.Text = "p";
                 fillDefault();
             }
         }
