@@ -13,13 +13,13 @@ namespace gradebook {
     public partial class Query {
         
         /// <summary>
-        /// student control.
+        /// studentPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel student;
+        protected global::System.Web.UI.UpdatePanel studentPanel;
         
         /// <summary>
         /// TextBox1 control.

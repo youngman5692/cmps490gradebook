@@ -1,9 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Query.aspx.cs" Inherits="gradebook.Query" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <asp:UpdatePanel ID="student" runat="server" DefaultButton="Button2">
+    <asp:UpdatePanel ID="studentPanel" runat="server" DefaultButton="Button2">
         <Triggers>
-            <asp:AsyncPostBackTrigger controlid="Button2" eventname="Click" />
+            <asp:AsyncPostBackTrigger ControlID="Button2" EventName="Click" />
         </Triggers>
         <ContentTemplate>
             <asp:TextBox ID="TextBox1" runat="server" OnTextChanged="TextBox1_TextChanged"></asp:TextBox>
@@ -47,10 +47,10 @@
     </asp:UpdatePanel>
 
     <br />
-    <asp:UpdatePanel ID="search" runat="server"  DefaultButton="Button1">
+    <asp:UpdatePanel ID="search" runat="server" DefaultButton="Button1">
         <Triggers>
-            <asp:AsyncPostBackTrigger controlid="DropDownList1" eventname="SelectedIndexChanged" />
-            <asp:AsyncPostBackTrigger ControlID="Button1" eventname="Click" />
+            <asp:AsyncPostBackTrigger ControlID="DropDownList1" EventName="SelectedIndexChanged" />
+            <asp:AsyncPostBackTrigger ControlID="Button1" EventName="Click" />
         </Triggers>
         <ContentTemplate>
             <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="true" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged">
@@ -63,5 +63,8 @@
         </ContentTemplate>
     </asp:UpdatePanel>
     <br />
+    <br />
+    <br />
+  
 
     </asp:Content>

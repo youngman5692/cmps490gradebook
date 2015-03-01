@@ -235,22 +235,22 @@
     <Content Include="GradebookDataSet.xsc">
       <DependentUpon>GradebookDataSet.xsd</DependentUpon>
     </Content>
-    <EntityDeploy Include="DAL\GradebookModel.edmx">
+    <EntityDeploy Include="DAL2\GradebookDataModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>GradebookModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>GradebookDataModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="DAL\GradebookModel.Context.tt">
+    <Content Include="DAL2\GradebookDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>GradebookModel.edmx</DependentUpon>
-      <LastGenOutput>GradebookModel.Context.cs</LastGenOutput>
+      <DependentUpon>GradebookDataModel.edmx</DependentUpon>
+      <LastGenOutput>GradebookDataModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="DAL\GradebookModel.edmx.diagram">
-      <DependentUpon>GradebookModel.edmx</DependentUpon>
+    <Content Include="DAL2\GradebookDataModel.edmx.diagram">
+      <DependentUpon>GradebookDataModel.edmx</DependentUpon>
     </Content>
-    <Content Include="DAL\GradebookModel.tt">
+    <Content Include="DAL2\GradebookDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>GradebookModel.edmx</DependentUpon>
-      <LastGenOutput>GradebookModel.cs</LastGenOutput>
+      <DependentUpon>GradebookDataModel.edmx</DependentUpon>
+      <LastGenOutput>GradebookDataModel.cs</LastGenOutput>
     </Content>
     <None Include="GradebookDataSet.xsd">
       <SubType>Designer</SubType>
@@ -435,38 +435,56 @@
     <Compile Include="Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
-    <Compile Include="DAL\Assignment.cs">
-      <DependentUpon>GradebookModel.tt</DependentUpon>
+    <Compile Include="DAL2\AspNetRole.cs">
+      <DependentUpon>GradebookDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\Course.cs">
-      <DependentUpon>GradebookModel.tt</DependentUpon>
+    <Compile Include="DAL2\AspNetUser.cs">
+      <DependentUpon>GradebookDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\GradebookModel.Context.cs">
+    <Compile Include="DAL2\AspNetUserClaim.cs">
+      <DependentUpon>GradebookDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL2\AspNetUserLogin.cs">
+      <DependentUpon>GradebookDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL2\Assignment.cs">
+      <DependentUpon>GradebookDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL2\Course.cs">
+      <DependentUpon>GradebookDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL2\C__MigrationHistory.cs">
+      <DependentUpon>GradebookDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL2\GradebookDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GradebookModel.Context.tt</DependentUpon>
+      <DependentUpon>GradebookDataModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\GradebookModel.cs">
+    <Compile Include="DAL2\GradebookDataModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GradebookModel.tt</DependentUpon>
+      <DependentUpon>GradebookDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\GradebookModel.Designer.cs">
+    <Compile Include="DAL2\GradebookDataModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GradebookModel.edmx</DependentUpon>
+      <DependentUpon>GradebookDataModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="DAL\GradeDistribution.cs">
-      <DependentUpon>GradebookModel.tt</DependentUpon>
+    <Compile Include="DAL2\GradeDistribution.cs">
+      <DependentUpon>GradebookDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\Student.cs">
-      <DependentUpon>GradebookModel.tt</DependentUpon>
+    <Compile Include="DAL2\Student.cs">
+      <DependentUpon>GradebookDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\Teacher.cs">
-      <DependentUpon>GradebookModel.tt</DependentUpon>
+    <Compile Include="DAL2\Teacher.cs">
+      <DependentUpon>GradebookDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\Undertake.cs">
-      <DependentUpon>GradebookModel.tt</DependentUpon>
+    <Compile Include="DAL2\testTable.cs">
+      <DependentUpon>GradebookDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL2\Undertake.cs">
+      <DependentUpon>GradebookDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>

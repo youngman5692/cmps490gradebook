@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using gradebook.DAL;
+using gradebook.DAL2;
 
 namespace gradebook
 {
@@ -17,8 +17,10 @@ namespace gradebook
                 fillGrid3();
                 Label1.Text = "";
                 fillDefault();
-                fillDropDownClass();
+                fillDropDownClass();  
             }
+            if (User.Identity.Name != "")
+                studentPanel.Visible = false;
         }
 
         protected void fillDropDownClass()
@@ -30,7 +32,7 @@ namespace gradebook
 
         public void fillDefault()
         {
-            using (var context = new GradebookEntities())
+            using (var context = new GradebookDataEntities())
             {
                 var l2equery = from c in context.Courses select c;
                 var courses = l2equery.ToList();
@@ -43,7 +45,7 @@ namespace gradebook
 
         public void fillGrid3()
         {
-            using (var context = new GradebookEntities())
+            using (var context = new GradebookDataEntities())
             {
                 var l2equery = from s in context.Students where s.Email.Contains(TextBox1.Text) select s;
                 var s1 = l2equery.ToList();
@@ -65,7 +67,7 @@ namespace gradebook
         }
         public void fillGrid2()
         {
-            using (var context = new GradebookEntities())
+            using (var context = new GradebookDataEntities())
             {
                 var l2equery = from s in context.Students where s.Email.Contains(TextBox1.Text) select s.Courses;
                 var courses = l2equery.FirstOrDefault();
@@ -79,7 +81,7 @@ namespace gradebook
         {
             if (TextBox2.Text != "")
             {
-                using (var context = new GradebookEntities())
+                using (var context = new GradebookDataEntities())
                 {
                     Course course = context.Courses.FirstOrDefault(c => c.CourseNumber == DropDownList2.SelectedValue);
                     Student student = context.Students.FirstOrDefault(s => s.Email == TextBox2.Text);
@@ -103,7 +105,7 @@ namespace gradebook
 
         protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            using (var context = new GradebookEntities())
+            using (var context = new GradebookDataEntities())
             {
                 var l2equery = from c in context.Courses where c.Year >= DateTime.Now.Year && c.Term == DropDownList1.SelectedValue select c;
                 var courses = l2equery.ToList();
