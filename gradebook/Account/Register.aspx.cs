@@ -16,8 +16,8 @@ namespace gradebook.Account
         {
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var signInManager = Context.GetOwinContext().Get<ApplicationSignInManager>();
-            var user = new ApplicationUser() { UserName = Email.Text, Email = Email.Text };
-            IdentityResult result = manager.Create(user, Password.Text);
+            var user = new ApplicationUser() { UserName = TextBox1.Text, Email = TextBox1.Text };
+            IdentityResult result = manager.Create(user, TextBox3.Text);
             if (result.Succeeded)
             {
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -27,7 +27,7 @@ namespace gradebook.Account
                 using (SqlConnection connection = new SqlConnection("Server=tcp:ubqj72so2r.database.windows.net,1433;Database=gradebookdatabase_db;User ID=cyoung_dpopkin@ubqj72so2r;Password=War1.vhic;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;"))
                 {
                     SqlDataAdapter cmd = new SqlDataAdapter();
-                    using (var insertcmd = new SqlCommand("INSERT INTO Student VALUES ('" + Email.Text + "', 'First', 'Last')"))
+                    using (var insertcmd = new SqlCommand("INSERT INTO Student VALUES ('" + TextBox1.Text + "', 'First', 'Last')"))
                     {
                         insertcmd.Connection = connection;
                         cmd.InsertCommand = insertcmd;
