@@ -13,6 +13,24 @@ namespace gradebook {
     public partial class Query {
         
         /// <summary>
+        /// IndexDropDownList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList IndexDropDownList;
+        
+        /// <summary>
+        /// studentView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel studentView;
+        
+        /// <summary>
         /// studentPanel control.
         /// </summary>
         /// <remarks>
@@ -22,49 +40,49 @@ namespace gradebook {
         protected global::System.Web.UI.UpdatePanel studentPanel;
         
         /// <summary>
-        /// TextBox1 control.
+        /// searchStudentsTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox1;
+        protected global::System.Web.UI.WebControls.TextBox searchStudentsTextBox;
         
         /// <summary>
-        /// Button2 control.
+        /// searchStudents control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button2;
+        protected global::System.Web.UI.WebControls.Button searchStudents;
         
         /// <summary>
-        /// GridView3 control.
+        /// studentGridView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView GridView3;
+        protected global::System.Web.UI.WebControls.GridView studentGridView;
         
         /// <summary>
-        /// Label1 control.
+        /// studentLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
+        protected global::System.Web.UI.WebControls.Label studentLabel;
         
         /// <summary>
-        /// GridView2 control.
+        /// courseGridView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView GridView2;
+        protected global::System.Web.UI.WebControls.GridView courseGridView;
         
         /// <summary>
         /// search control.
@@ -76,39 +94,39 @@ namespace gradebook {
         protected global::System.Web.UI.UpdatePanel search;
         
         /// <summary>
-        /// DropDownList1 control.
+        /// TermDropDownList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList1;
+        protected global::System.Web.UI.WebControls.DropDownList TermDropDownList;
         
         /// <summary>
-        /// DropDownList2 control.
+        /// CourseNumberDropDownList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList2;
+        protected global::System.Web.UI.WebControls.DropDownList CourseNumberDropDownList;
         
         /// <summary>
-        /// TextBox2 control.
+        /// AddStudentTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox2;
+        protected global::System.Web.UI.WebControls.TextBox AddStudentTextBox;
         
         /// <summary>
-        /// Button1 control.
+        /// AddStudentButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.Button AddStudentButton;
     }
 }
