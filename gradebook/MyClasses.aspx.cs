@@ -23,7 +23,11 @@ namespace gradebook
                     loggedIn.Visible = false;
                 }
                 else
+                {
                     loggedIn.Visible = true;
+                    studentPanel.Visible = false;
+                    teacherPanel.Visible = false;
+                }
             }
         }
 
