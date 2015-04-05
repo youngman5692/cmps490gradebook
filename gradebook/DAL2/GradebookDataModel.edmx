@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="GradebookDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="GradebookDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -278,6 +278,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="AddClass" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="number" Type="nvarchar" Mode="In" />
+          <Parameter Name="term" Type="nvarchar" Mode="In" />
+          <Parameter Name="year" Type="int" Mode="In" />
+          <Parameter Name="description" Type="nvarchar" Mode="In" />
+          <Parameter Name="teacher" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="GradebookDataModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -338,8 +345,7 @@
             <End Role="Undertakes" EntitySet="Undertakes" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GradebookDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -623,6 +629,20 @@
             <End Role="Student" EntitySet="Students" />
             <End Role="Course" EntitySet="Courses" />
           </AssociationSet>
+          <FunctionImport Name="AddClass">
+            <Parameter Name="number" Mode="In" Type="String" />
+            <Parameter Name="term" Mode="In" Type="String" />
+            <Parameter Name="year" Mode="In" Type="Int32" />
+            <Parameter Name="description" Mode="In" Type="String" />
+            <Parameter Name="teacher" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AddClass1">
+            <Parameter Name="number" Mode="In" Type="String" />
+            <Parameter Name="term" Mode="In" Type="String" />
+            <Parameter Name="year" Mode="In" Type="Int32" />
+            <Parameter Name="description" Mode="In" Type="String" />
+            <Parameter Name="teacher" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -771,6 +791,8 @@
               <ScalarProperty Name="CourseID" ColumnName="CourseID" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="AddClass" FunctionName="GradebookDataModel.Store.AddClass" />
+          <FunctionImportMapping FunctionImportName="AddClass1" FunctionName="GradebookDataModel.Store.AddClass" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

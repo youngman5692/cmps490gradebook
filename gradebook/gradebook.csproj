@@ -298,6 +298,7 @@
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="SelectedClass.aspx" />
     <Content Include="Site.Master" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
@@ -517,6 +518,13 @@
     </Compile>
     <Compile Include="Query.aspx.designer.cs">
       <DependentUpon>Query.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SelectedClass.aspx.cs">
+      <DependentUpon>SelectedClass.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SelectedClass.aspx.designer.cs">
+      <DependentUpon>SelectedClass.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>

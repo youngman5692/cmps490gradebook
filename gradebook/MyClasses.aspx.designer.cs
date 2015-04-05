@@ -40,6 +40,24 @@ namespace gradebook {
         protected global::System.Web.UI.WebControls.GridView studentCourseGridView;
         
         /// <summary>
+        /// studentCourseDropDown control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList studentCourseDropDown;
+        
+        /// <summary>
+        /// registerStudentCourseButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button registerStudentCourseButton;
+        
+        /// <summary>
         /// teacherPanel control.
         /// </summary>
         /// <remarks>
@@ -56,5 +74,50 @@ namespace gradebook {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView teacherCourseGridView;
+        
+        /// <summary>
+        /// CourseNumber control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox CourseNumber;
+        
+        /// <summary>
+        /// termDropDownList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList termDropDownList;
+        
+        /// <summary>
+        /// yearDropDownList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList yearDropDownList;
+        
+        /// <summary>
+        /// CourseDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox CourseDescription;
+        
+        /// <summary>
+        /// registerCourseButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button registerCourseButton;
     }
 }

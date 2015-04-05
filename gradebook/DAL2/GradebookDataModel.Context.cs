@@ -12,6 +12,8 @@ namespace gradebook.DAL2
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class GradebookDataEntities : DbContext
     {
@@ -37,5 +39,55 @@ namespace gradebook.DAL2
         public virtual DbSet<Teacher> Teachers { get; set; }
         public virtual DbSet<testTable> testTables { get; set; }
         public virtual DbSet<Undertake> Undertakes { get; set; }
+    
+        public virtual int AddClass(string number, string term, Nullable<int> year, string description, Nullable<int> teacher)
+        {
+            var numberParameter = number != null ?
+                new ObjectParameter("number", number) :
+                new ObjectParameter("number", typeof(string));
+    
+            var termParameter = term != null ?
+                new ObjectParameter("term", term) :
+                new ObjectParameter("term", typeof(string));
+    
+            var yearParameter = year.HasValue ?
+                new ObjectParameter("year", year) :
+                new ObjectParameter("year", typeof(int));
+    
+            var descriptionParameter = description != null ?
+                new ObjectParameter("description", description) :
+                new ObjectParameter("description", typeof(string));
+    
+            var teacherParameter = teacher.HasValue ?
+                new ObjectParameter("teacher", teacher) :
+                new ObjectParameter("teacher", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddClass", numberParameter, termParameter, yearParameter, descriptionParameter, teacherParameter);
+        }
+    
+        public virtual int AddClass1(string number, string term, Nullable<int> year, string description, Nullable<int> teacher)
+        {
+            var numberParameter = number != null ?
+                new ObjectParameter("number", number) :
+                new ObjectParameter("number", typeof(string));
+    
+            var termParameter = term != null ?
+                new ObjectParameter("term", term) :
+                new ObjectParameter("term", typeof(string));
+    
+            var yearParameter = year.HasValue ?
+                new ObjectParameter("year", year) :
+                new ObjectParameter("year", typeof(int));
+    
+            var descriptionParameter = description != null ?
+                new ObjectParameter("description", description) :
+                new ObjectParameter("description", typeof(string));
+    
+            var teacherParameter = teacher.HasValue ?
+                new ObjectParameter("teacher", teacher) :
+                new ObjectParameter("teacher", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddClass1", numberParameter, termParameter, yearParameter, descriptionParameter, teacherParameter);
+        }
     }
 }
