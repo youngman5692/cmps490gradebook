@@ -16,21 +16,39 @@ namespace gradebook
         protected void Page_Load(object sender, EventArgs e)
         {
             String s = Request.QueryString["classID"];
-            ClassLabel.Text = s;
 
-            if (s != null)
+            if (!IsPostBack)
             {
-                courseID = Convert.ToInt32(s);
-                if (checkAuthority())
+                if (s != null)
                 {
-                    loadTeacherCourseGradeGrid();
-                    loadTeacherCourseAssignmentGrid();
-                    loadTeacherCourseStudentGrid();
+                    courseID = Convert.ToInt32(s);
+                    getClassName();
+                    if (checkIfTeacher())
+                    {
+                        loadTeacherCourseGradeGrid();
+                        loadTeacherCourseAssignmentGrid();
+                        loadTeacherCourseStudentGrid();
+                    }
+                    else if (checkIfStudent())
+                    {
+                        loadStudentCourseAssignmentGrid();
+                    }
                 }
             }
         }
 
-        protected bool checkAuthority()
+        protected void getClassName()
+        {
+            string cName;
+            using (var context = new GradebookDataEntities())
+            {
+                var query = (from c in context.Courses where c.CourseID == courseID select c).FirstOrDefault();
+                cName = query.CourseNumber.ToString();
+                ClassLabel.Text = cName;
+            }        
+        }
+
+        protected bool checkIfTeacher()
         {
             string teacherEmail;
             using (var context = new GradebookDataEntities())
@@ -43,6 +61,19 @@ namespace gradebook
                 return true;
             else
                 return false;
+        }
+
+        protected bool checkIfStudent()
+        {
+            string studentEmail;
+            using (var context = new GradebookDataEntities())
+            {
+                var query = (from c in context.Courses from s in c.Students where c.CourseID == courseID && s.Email == User.Identity.Name select s.Email);
+                studentEmail = query.FirstOrDefault();
+            }
+            if(studentEmail == null)
+                return false;
+            return true;
         }
 
         protected void loadTeacherCourseGradeGrid()
@@ -66,6 +97,7 @@ namespace gradebook
                 teacherCourseAssignmentGrid.DataSource = query;
                 teacherCourseAssignmentGrid.DataBind();
             }
+            teacherCourseAssignmentGrid.GridLines = GridLines.None;
         }
 
         protected void loadTeacherCourseStudentGrid()
@@ -77,6 +109,39 @@ namespace gradebook
                 teacherCourseStudentGrid.DataSource = query;
                 teacherCourseStudentGrid.DataBind();
             }
+        }
+
+        protected void loadStudentCourseAssignmentGrid()
+        {
+            using (var context = new GradebookDataEntities())
+            {
+                var query = (from c in context.Courses from grade in c.GradeDistributions from assignment in grade.Assignments where c.CourseID == courseID select new { assignment.Description, assignment.PointsPossible }).ToList();
+
+                studentCourseAssignmentGrid.DataSource = query;
+                studentCourseAssignmentGrid.DataBind();
+            }
+        }
+
+        protected void DeleteGradeDistribution()
+        {
+
+        }
+
+        protected void AddNewGradeDistribution(Object sender, EventArgs e)
+        {
+            /*string category = ((TextBox)teacherCourseGradeGrid.FooterRow.FindControl("txtCategory")).Text;
+            decimal weight = Convert.ToDecimal(((TextBox)teacherCourseGradeGrid.FooterRow.FindControl("txtWeight")).Text);
+
+            using (var context = new GradebookDataEntities())
+            {
+                var result = context.AddGradeDistribution(category, weight, courseID);
+
+                ClassLabel.Text = result.ToString();
+            }
+            */
+
+            ClassLabel.Text = "shits not working";
+            loadTeacherCourseAssignmentGrid();
         }
     }
 }

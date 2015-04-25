@@ -285,6 +285,11 @@
           <Parameter Name="description" Type="nvarchar" Mode="In" />
           <Parameter Name="teacher" Type="int" Mode="In" />
         </Function>
+        <Function Name="AddGradeDistribution" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Category" Type="nvarchar" Mode="In" />
+          <Parameter Name="Weight" Type="decimal" Mode="In" />
+          <Parameter Name="CourseID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="GradebookDataModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -643,6 +648,11 @@
             <Parameter Name="description" Mode="In" Type="String" />
             <Parameter Name="teacher" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="AddGradeDistribution">
+            <Parameter Name="Category" Mode="In" Type="String" />
+            <Parameter Name="Weight" Mode="In" Type="Decimal" />
+            <Parameter Name="CourseID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -793,6 +803,7 @@
           </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="AddClass" FunctionName="GradebookDataModel.Store.AddClass" />
           <FunctionImportMapping FunctionImportName="AddClass1" FunctionName="GradebookDataModel.Store.AddClass" />
+          <FunctionImportMapping FunctionImportName="AddGradeDistribution" FunctionName="GradebookDataModel.Store.AddGradeDistribution" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

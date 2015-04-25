@@ -89,5 +89,22 @@ namespace gradebook.DAL2
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddClass1", numberParameter, termParameter, yearParameter, descriptionParameter, teacherParameter);
         }
+    
+        public virtual int AddGradeDistribution(string category, Nullable<decimal> weight, Nullable<int> courseID)
+        {
+            var categoryParameter = category != null ?
+                new ObjectParameter("Category", category) :
+                new ObjectParameter("Category", typeof(string));
+    
+            var weightParameter = weight.HasValue ?
+                new ObjectParameter("Weight", weight) :
+                new ObjectParameter("Weight", typeof(decimal));
+    
+            var courseIDParameter = courseID.HasValue ?
+                new ObjectParameter("CourseID", courseID) :
+                new ObjectParameter("CourseID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddGradeDistribution", categoryParameter, weightParameter, courseIDParameter);
+        }
     }
 }
