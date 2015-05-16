@@ -157,6 +157,15 @@ namespace gradebook {
         protected global::System.Web.UI.WebControls.Label ClassLabel;
         
         /// <summary>
+        /// teacherPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel teacherPanel;
+        
+        /// <summary>
         /// teacherCourseGradeGrid control.
         /// </summary>
         /// <remarks>
@@ -182,32 +191,5 @@ namespace gradebook {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView teacherCourseStudentGrid;
-        
-        /// <summary>
-        /// teacherStudentGradesGrid control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView teacherStudentGradesGrid;
-        
-        /// <summary>
-        /// studentPanel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel studentPanel;
-        
-        /// <summary>
-        /// studentCourseAssignmentGrid control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView studentCourseAssignmentGrid;
     }
 }
