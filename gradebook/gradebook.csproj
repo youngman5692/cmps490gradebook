@@ -54,6 +54,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework.Extended">
+      <HintPath>..\packages\EntityFramework.Extended.6.1.0.133\lib\net45\EntityFramework.Extended.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
@@ -300,8 +303,11 @@
     <Content Include="Global.asax" />
     <Content Include="SelectedClass.aspx" />
     <Content Include="Site.Master" />
+    <Content Include="Uploads\TextFile1.txt" />
     <Content Include="ViewSwitcher.ascx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Bundle.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Site.Mobile.Master" />
@@ -476,13 +482,31 @@
     <Compile Include="DAL2\GradeDistribution.cs">
       <DependentUpon>GradebookDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL2\GradeFunction_Result.cs">
+      <DependentUpon>GradebookDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL2\Student.cs">
       <DependentUpon>GradebookDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL2\Teacher.cs">
       <DependentUpon>GradebookDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL2\teacherGrade.cs">
+      <DependentUpon>GradebookDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL2\teacherGradesFunction_Result.cs">
+      <DependentUpon>GradebookDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL2\teacherGradesSP_Result.cs">
+      <DependentUpon>GradebookDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL2\teacherGradesView_Result.cs">
+      <DependentUpon>GradebookDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL2\testTable.cs">
+      <DependentUpon>GradebookDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL2\testView.cs">
       <DependentUpon>GradebookDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL2\Undertake.cs">

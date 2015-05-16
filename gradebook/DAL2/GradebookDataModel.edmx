@@ -138,6 +138,28 @@
           <Property Name="StudentID" Type="int" Nullable="false" />
           <Property Name="Points" Type="int" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'gradebookdatabase_db.dbo.teacherGrades' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="teacherGrades">
+          <Key>
+            <PropertyRef Name="StudentID" />
+          </Key>
+          <Property Name="StudentID" Type="int" Nullable="false" />
+          <Property Name="Homework 1" Type="int" />
+          <Property Name="Homework 2" Type="int" />
+          <Property Name="Homework 3" Type="int" />
+          <Property Name="Lab 2" Type="int" />
+          <Property Name="Spring Final" Type="int" />
+          <Property Name="Test Lab" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'gradebookdatabase_db.dbo.testView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="testView">
+          <Key>
+            <PropertyRef Name="StudentID" />
+          </Key>
+          <Property Name="StudentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
         <Association Name="FK_Assignment_0">
           <End Role="GradeDistribution" Type="Self.GradeDistribution" Multiplicity="1" />
           <End Role="Assignment" Type="Self.Assignment" Multiplicity="*" />
@@ -278,12 +300,71 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="AddAssignment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PointsPossible" Type="int" Mode="In" />
+          <Parameter Name="Description" Type="nvarchar" Mode="In" />
+          <Parameter Name="GradeID" Type="int" Mode="In" />
+        </Function>
         <Function Name="AddClass" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="number" Type="nvarchar" Mode="In" />
           <Parameter Name="term" Type="nvarchar" Mode="In" />
           <Parameter Name="year" Type="int" Mode="In" />
           <Parameter Name="description" Type="nvarchar" Mode="In" />
           <Parameter Name="teacher" Type="int" Mode="In" />
+        </Function>
+        <Function Name="AddGradeDistribution" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Category" Type="nvarchar" Mode="In" />
+          <Parameter Name="Weight" Type="decimal" Mode="In" />
+          <Parameter Name="CourseID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Assign" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CourseID" Type="int" Mode="In" />
+          <Parameter Name="AssignmentID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GradeFunction" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CourseID" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="StudentID" Type="int" Nullable="false" />
+                <Property Name="Homework 1" Type="int" />
+                <Property Name="Lab 2" Type="int" />
+                <Property Name="Spring Final" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="teacherGradesFunction" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CourseID" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="StudentID" Type="int" Nullable="false" />
+                <Property Name="AssignmentID" Type="int" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="teacherGradesProcedure" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CourseID" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="teacherGradesSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CourseID" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="teacherGradesView" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CourseID" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="Description" Type="nvarchar" MaxLength="250" />
+                <Property Name="StudentID" Type="int" Nullable="false" />
+                <Property Name="Points" Type="int" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="test" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CourseID" Type="nvarchar(max)" Mode="In" />
         </Function>
         <EntityContainer Name="GradebookDataModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
@@ -300,6 +381,22 @@
           <EntitySet Name="Teacher" EntityType="Self.Teacher" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="testTable" EntityType="Self.testTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Undertakes" EntityType="Self.Undertakes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="teacherGrades" EntityType="Self.teacherGrades" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [teacherGrades].[StudentID] AS [StudentID], 
+    [teacherGrades].[Homework 1] AS [Homework 1], 
+    [teacherGrades].[Homework 2] AS [Homework 2], 
+    [teacherGrades].[Homework 3] AS [Homework 3], 
+    [teacherGrades].[Lab 2] AS [Lab 2], 
+    [teacherGrades].[Spring Final] AS [Spring Final], 
+    [teacherGrades].[Test Lab] AS [Test Lab]
+    FROM [dbo].[teacherGrades] AS [teacherGrades]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="testView" EntityType="Self.testView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [testView].[StudentID] AS [StudentID]
+    FROM [dbo].[testView] AS [testView]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Assignment_0" Association="Self.FK_Assignment_0">
             <End Role="GradeDistribution" EntitySet="GradeDistribution" />
             <End Role="Assignment" EntitySet="Assignment" />
@@ -643,7 +740,79 @@
             <Parameter Name="description" Mode="In" Type="String" />
             <Parameter Name="teacher" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="AddGradeDistribution">
+            <Parameter Name="Category" Mode="In" Type="String" />
+            <Parameter Name="Weight" Mode="In" Type="Decimal" />
+            <Parameter Name="CourseID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AddAssignment">
+            <Parameter Name="PointsPossible" Mode="In" Type="Int32" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="GradeID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="teacherGradesFunction" IsComposable="true" ReturnType="Collection(GradebookDataModel.teacherGradesFunction_Result)">
+          <Parameter Name="CourseID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="teacherGradesProcedure">
+          <Parameter Name="CourseID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="teacherGradesView" IsComposable="true" ReturnType="Collection(GradebookDataModel.teacherGradesView_Result)">
+          <Parameter Name="CourseID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="testViews" EntityType="GradebookDataModel.testView" />
+          <FunctionImport Name="GradeFunction" IsComposable="true" ReturnType="Collection(GradebookDataModel.GradeFunction_Result)">
+          <Parameter Name="CourseID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="teacherGradesSP" ReturnType="Collection(GradebookDataModel.teacherGradesSP_Result)">
+          <Parameter Name="CourseID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="test">
+          <Parameter Name="CourseID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Assign">
+            <Parameter Name="CourseID" Mode="In" Type="Int32" />
+            <Parameter Name="AssignmentID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="teacherGrades" EntityType="GradebookDataModel.teacherGrade" />
         </EntityContainer>
+        <ComplexType Name="teacherGradesFunction_Result">
+          <Property Type="Int32" Name="StudentID" Nullable="false" />
+          <Property Type="Int32" Name="AssignmentID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="teacherGradesView_Result">
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="StudentID" Nullable="false" />
+          <Property Type="Int32" Name="Points" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="testView">
+          <Key>
+            <PropertyRef Name="StudentID" />
+          </Key>
+          <Property Name="StudentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <ComplexType Name="GradeFunction_Result">
+          <Property Type="Int32" Name="StudentID" Nullable="false" />
+          <Property Type="Int32" Name="Homework_1" Nullable="true" />
+          <Property Type="Int32" Name="Lab_2" Nullable="true" />
+          <Property Type="Int32" Name="Spring_Final" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="teacherGradesSP_Result">
+          <Property Type="Int32" Name="StudentID" Nullable="false" />
+          <Property Type="Int32" Name="Homework_1" Nullable="true" />
+          <Property Type="Int32" Name="Lab_1" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="teacherGrade">
+          <Key>
+            <PropertyRef Name="StudentID" />
+          </Key>
+          <Property Name="StudentID" Type="Int32" Nullable="false" />
+          <Property Name="Homework_1" Type="Int32" />
+          <Property Name="Homework_2" Type="Int32" />
+          <Property Name="Homework_3" Type="Int32" />
+          <Property Name="Lab_2" Type="Int32" />
+          <Property Name="Spring_Final" Type="Int32" />
+          <Property Name="Test_Lab" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -793,6 +962,67 @@
           </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="AddClass" FunctionName="GradebookDataModel.Store.AddClass" />
           <FunctionImportMapping FunctionImportName="AddClass1" FunctionName="GradebookDataModel.Store.AddClass" />
+          <FunctionImportMapping FunctionImportName="AddGradeDistribution" FunctionName="GradebookDataModel.Store.AddGradeDistribution" />
+          <FunctionImportMapping FunctionImportName="AddAssignment" FunctionName="GradebookDataModel.Store.AddAssignment" />
+          <FunctionImportMapping FunctionImportName="teacherGradesFunction" FunctionName="GradebookDataModel.Store.teacherGradesFunction">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GradebookDataModel.teacherGradesFunction_Result">
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="AssignmentID" ColumnName="AssignmentID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="teacherGradesProcedure" FunctionName="GradebookDataModel.Store.teacherGradesProcedure" />
+          <FunctionImportMapping FunctionImportName="teacherGradesView" FunctionName="GradebookDataModel.Store.teacherGradesView">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GradebookDataModel.teacherGradesView_Result">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="Points" ColumnName="Points" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="testViews">
+            <EntityTypeMapping TypeName="GradebookDataModel.testView">
+              <MappingFragment StoreEntitySet="testView">
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GradeFunction" FunctionName="GradebookDataModel.Store.GradeFunction">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GradebookDataModel.GradeFunction_Result">
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="Homework_1" ColumnName="Homework 1" />
+                <ScalarProperty Name="Lab_2" ColumnName="Lab 2" />
+                <ScalarProperty Name="Spring_Final" ColumnName="Spring Final" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="teacherGradesSP" FunctionName="GradebookDataModel.Store.teacherGradesSP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GradebookDataModel.teacherGradesSP_Result">
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="Homework_1" ColumnName="Homework 1" />
+                <ScalarProperty Name="Lab_1" ColumnName="Lab 1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="test" FunctionName="GradebookDataModel.Store.test" />
+          <FunctionImportMapping FunctionImportName="Assign" FunctionName="GradebookDataModel.Store.Assign" />
+          <EntitySetMapping Name="teacherGrades">
+            <EntityTypeMapping TypeName="GradebookDataModel.teacherGrade">
+              <MappingFragment StoreEntitySet="teacherGrades">
+                <ScalarProperty Name="Test_Lab" ColumnName="Test Lab" />
+                <ScalarProperty Name="Spring_Final" ColumnName="Spring Final" />
+                <ScalarProperty Name="Lab_2" ColumnName="Lab 2" />
+                <ScalarProperty Name="Homework_3" ColumnName="Homework 3" />
+                <ScalarProperty Name="Homework_2" ColumnName="Homework 2" />
+                <ScalarProperty Name="Homework_1" ColumnName="Homework 1" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

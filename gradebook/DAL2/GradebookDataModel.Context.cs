@@ -39,6 +39,8 @@ namespace gradebook.DAL2
         public virtual DbSet<Teacher> Teachers { get; set; }
         public virtual DbSet<testTable> testTables { get; set; }
         public virtual DbSet<Undertake> Undertakes { get; set; }
+        public virtual DbSet<testView> testViews { get; set; }
+        public virtual DbSet<teacherGrade> teacherGrades { get; set; }
     
         public virtual int AddClass(string number, string term, Nullable<int> year, string description, Nullable<int> teacher)
         {
@@ -88,6 +90,110 @@ namespace gradebook.DAL2
                 new ObjectParameter("teacher", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddClass1", numberParameter, termParameter, yearParameter, descriptionParameter, teacherParameter);
+        }
+    
+        public virtual int AddGradeDistribution(string category, Nullable<decimal> weight, Nullable<int> courseID)
+        {
+            var categoryParameter = category != null ?
+                new ObjectParameter("Category", category) :
+                new ObjectParameter("Category", typeof(string));
+    
+            var weightParameter = weight.HasValue ?
+                new ObjectParameter("Weight", weight) :
+                new ObjectParameter("Weight", typeof(decimal));
+    
+            var courseIDParameter = courseID.HasValue ?
+                new ObjectParameter("CourseID", courseID) :
+                new ObjectParameter("CourseID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddGradeDistribution", categoryParameter, weightParameter, courseIDParameter);
+        }
+    
+        public virtual int AddAssignment(Nullable<int> pointsPossible, string description, Nullable<int> gradeID)
+        {
+            var pointsPossibleParameter = pointsPossible.HasValue ?
+                new ObjectParameter("PointsPossible", pointsPossible) :
+                new ObjectParameter("PointsPossible", typeof(int));
+    
+            var descriptionParameter = description != null ?
+                new ObjectParameter("Description", description) :
+                new ObjectParameter("Description", typeof(string));
+    
+            var gradeIDParameter = gradeID.HasValue ?
+                new ObjectParameter("GradeID", gradeID) :
+                new ObjectParameter("GradeID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddAssignment", pointsPossibleParameter, descriptionParameter, gradeIDParameter);
+        }
+    
+        [DbFunction("GradebookDataEntities", "teacherGradesFunction")]
+        public virtual IQueryable<teacherGradesFunction_Result> teacherGradesFunction(Nullable<int> courseID)
+        {
+            var courseIDParameter = courseID.HasValue ?
+                new ObjectParameter("CourseID", courseID) :
+                new ObjectParameter("CourseID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<teacherGradesFunction_Result>("[GradebookDataEntities].[teacherGradesFunction](@CourseID)", courseIDParameter);
+        }
+    
+        public virtual int teacherGradesProcedure(string courseID)
+        {
+            var courseIDParameter = courseID != null ?
+                new ObjectParameter("CourseID", courseID) :
+                new ObjectParameter("CourseID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("teacherGradesProcedure", courseIDParameter);
+        }
+    
+        [DbFunction("GradebookDataEntities", "teacherGradesView")]
+        public virtual IQueryable<teacherGradesView_Result> teacherGradesView(Nullable<int> courseID)
+        {
+            var courseIDParameter = courseID.HasValue ?
+                new ObjectParameter("CourseID", courseID) :
+                new ObjectParameter("CourseID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<teacherGradesView_Result>("[GradebookDataEntities].[teacherGradesView](@CourseID)", courseIDParameter);
+        }
+    
+        [DbFunction("GradebookDataEntities", "GradeFunction")]
+        public virtual IQueryable<GradeFunction_Result> GradeFunction(Nullable<int> courseID)
+        {
+            var courseIDParameter = courseID.HasValue ?
+                new ObjectParameter("CourseID", courseID) :
+                new ObjectParameter("CourseID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GradeFunction_Result>("[GradebookDataEntities].[GradeFunction](@CourseID)", courseIDParameter);
+        }
+    
+        public virtual ObjectResult<teacherGradesSP_Result> teacherGradesSP(string courseID)
+        {
+            var courseIDParameter = courseID != null ?
+                new ObjectParameter("CourseID", courseID) :
+                new ObjectParameter("CourseID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<teacherGradesSP_Result>("teacherGradesSP", courseIDParameter);
+        }
+    
+        public virtual int test(string courseID)
+        {
+            var courseIDParameter = courseID != null ?
+                new ObjectParameter("CourseID", courseID) :
+                new ObjectParameter("CourseID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("test", courseIDParameter);
+        }
+    
+        public virtual int Assign(Nullable<int> courseID, Nullable<int> assignmentID)
+        {
+            var courseIDParameter = courseID.HasValue ?
+                new ObjectParameter("CourseID", courseID) :
+                new ObjectParameter("CourseID", typeof(int));
+    
+            var assignmentIDParameter = assignmentID.HasValue ?
+                new ObjectParameter("AssignmentID", assignmentID) :
+                new ObjectParameter("AssignmentID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Assign", courseIDParameter, assignmentIDParameter);
         }
     }
 }
