@@ -491,13 +491,13 @@
     <Compile Include="DAL2\Teacher.cs">
       <DependentUpon>GradebookDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL2\teacherGrade.cs">
-      <DependentUpon>GradebookDataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="DAL2\teacherGradesFunction_Result.cs">
       <DependentUpon>GradebookDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL2\teacherGradesSP_Result.cs">
+      <DependentUpon>GradebookDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL2\teacherGradesView2_Result.cs">
       <DependentUpon>GradebookDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL2\teacherGradesView_Result.cs">

@@ -10,16 +10,11 @@
 namespace gradebook.DAL2
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class teacherGrade
+    public partial class teacherGradesView2_Result
     {
+        public int AssignmentID { get; set; }
         public int StudentID { get; set; }
-        public Nullable<int> Homework_1 { get; set; }
-        public Nullable<int> Homework_2 { get; set; }
-        public Nullable<int> Homework_3 { get; set; }
-        public Nullable<int> Lab_2 { get; set; }
-        public Nullable<int> Spring_Final { get; set; }
-        public Nullable<int> Test_Lab { get; set; }
+        public int Points { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace gradebook.DAL2
     public partial class teacherGradesSP_Result
     {
         public int StudentID { get; set; }
-        //public Nullable<int> Homework_1 { get; set; }
-        //public Nullable<int> Lab_1 { get; set; }
+        public Nullable<int> Homework_1 { get; set; }
+        public Nullable<int> Lab_1 { get; set; }
     }
 }

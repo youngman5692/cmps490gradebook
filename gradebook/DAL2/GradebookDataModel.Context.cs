@@ -40,7 +40,6 @@ namespace gradebook.DAL2
         public virtual DbSet<testTable> testTables { get; set; }
         public virtual DbSet<Undertake> Undertakes { get; set; }
         public virtual DbSet<testView> testViews { get; set; }
-        public virtual DbSet<teacherGrade> teacherGrades { get; set; }
     
         public virtual int AddClass(string number, string term, Nullable<int> year, string description, Nullable<int> teacher)
         {
@@ -194,6 +193,44 @@ namespace gradebook.DAL2
                 new ObjectParameter("AssignmentID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Assign", courseIDParameter, assignmentIDParameter);
+        }
+    
+        public virtual int DeleteGrade(Nullable<int> gradeID)
+        {
+            var gradeIDParameter = gradeID.HasValue ?
+                new ObjectParameter("GradeID", gradeID) :
+                new ObjectParameter("GradeID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteGrade", gradeIDParameter);
+        }
+    
+        [DbFunction("GradebookDataEntities", "GetColumnNames")]
+        public virtual IQueryable<string> GetColumnNames(Nullable<int> courseID)
+        {
+            var courseIDParameter = courseID.HasValue ?
+                new ObjectParameter("CourseID", courseID) :
+                new ObjectParameter("CourseID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<string>("[GradebookDataEntities].[GetColumnNames](@CourseID)", courseIDParameter);
+        }
+    
+        public virtual int teacherGradesInt(string courseID)
+        {
+            var courseIDParameter = courseID != null ?
+                new ObjectParameter("CourseID", courseID) :
+                new ObjectParameter("CourseID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("teacherGradesInt", courseIDParameter);
+        }
+    
+        [DbFunction("GradebookDataEntities", "teacherGradesView2")]
+        public virtual IQueryable<teacherGradesView2_Result> teacherGradesView2(Nullable<int> courseID)
+        {
+            var courseIDParameter = courseID.HasValue ?
+                new ObjectParameter("CourseID", courseID) :
+                new ObjectParameter("CourseID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<teacherGradesView2_Result>("[GradebookDataEntities].[teacherGradesView2](@CourseID)", courseIDParameter);
         }
     }
 }

@@ -244,13 +244,14 @@ namespace gradebook
         {
             SqlCommand cmd = new SqlCommand();
 
-            cmd.CommandText = "teacherGradesSP";
+            cmd.CommandText = "teacherGradesInt";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = sqlconn;
             cmd.Parameters.Add("@CourseID", SqlDbType.NVarChar).Value = courseID.ToString();
 
             sqlconn.Open();
 
+            dynamicBoundFields();
             teacherStudentGradesGrid.DataSource = cmd.ExecuteReader();
             teacherStudentGradesGrid.DataBind();
 
@@ -273,21 +274,30 @@ namespace gradebook
             teacherStudentGradesGrid.Columns.Add(bfield);
 
             List<TemplateField> tfields = new List<TemplateField>();
+            List<string> headers = new List<string>();
+            List<string> headerText = new List<string>();
 
-            string[,] headers = new string[,]
+            using(var context = new GradebookDataEntities())
             {
-                {"Homework 1", "Homework_1"},
-                {"Spring Final", "Spring_Final"},
-                {"Homework 3", "Homework_3"}
-            };
+                var query = (from x in context.teacherGradesView2(2012) select x.AssignmentID).Distinct();
+                foreach(var name in query)
+                {
+                    headers.Add(name.ToString());
+                }
+                var query2 = (from x in context.Assignments from a in context.teacherGradesView2(courseID).Where(a => a.AssignmentID == x.AssignmentID) select x.Description).Distinct();
+                foreach(var x in query2)
+                {
+                    headerText.Add(x);
+                }
+            }
 
-            for (int i = 0; i < headers.Length/2; i++)
+            for (int i = 0; i < headers.Count; i++)
                 tfields.Add(new TemplateField());
 
             for (int i = 0; i < tfields.Count; i++)
             {
-                tfields[i].HeaderText = headers[i, 0];
-                tfields[i].ItemTemplate = new AddTemplateToGridView(ListItemType.Item, headers[i, 1]);
+                tfields[i].HeaderText = headerText[i];
+                tfields[i].ItemTemplate = new AddTemplateToGridView(ListItemType.Item, headers[i]);
                 teacherStudentGradesGrid.Columns.Add(tfields[i]);
             }
         }
@@ -313,10 +323,11 @@ namespace gradebook
             using (var context = new GradebookDataEntities())
             {
                 GradeDistribution obj = context.GradeDistributions.First(x => x.GradeID == gradeID);
-                context.Assignments.Where(x => x.GradeID == gradeID).Delete();
+                //context.Assignments.Where(x => x.GradeID == gradeID).Delete();
                 context.GradeDistributions.Remove(obj);
                 context.SaveChanges();
                 BindGrid();
+                loadTeacherStudentGradesGrid();
             }
         }
 
@@ -436,7 +447,7 @@ namespace gradebook
                 using (var context = new GradebookDataEntities())
                 {
                     context.Assign(courseID, assignmentID);
-                    teacherCourseGradeGrid.DataBind();
+                    loadTeacherStudentGradesGrid();
                 }             
             }
         }

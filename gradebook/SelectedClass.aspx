@@ -199,8 +199,9 @@
             </asp:GridView>
 
             <h3>Grades</h3>
-            <asp:GridView ID="teacherStudentGradesGrid" runat="server" AutoGenerateColumns="true" CssClass="table table-striped table-bordered table-condensed">
+            <asp:GridView ID="teacherStudentGradesGrid" runat="server" AutoGenerateColumns="false" CssClass="table table-striped table-bordered table-condensed">
             </asp:GridView>
+            <asp:Button ID="GradeUpdateButton" runat="server" Text="Update" />
 
         </ContentTemplate>
     </asp:UpdatePanel>

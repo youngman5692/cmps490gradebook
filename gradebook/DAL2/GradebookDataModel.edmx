@@ -139,20 +139,6 @@
           <Property Name="Points" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'gradebookdatabase_db.dbo.teacherGrades' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="teacherGrades">
-          <Key>
-            <PropertyRef Name="StudentID" />
-          </Key>
-          <Property Name="StudentID" Type="int" Nullable="false" />
-          <Property Name="Homework 1" Type="int" />
-          <Property Name="Homework 2" Type="int" />
-          <Property Name="Homework 3" Type="int" />
-          <Property Name="Lab 2" Type="int" />
-          <Property Name="Spring Final" Type="int" />
-          <Property Name="Test Lab" Type="int" />
-        </EntityType>
-        <!--Errors Found During Generation:
 warning 6002: The table/view 'gradebookdatabase_db.dbo.testView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="testView">
           <Key>
@@ -277,7 +263,9 @@ warning 6002: The table/view 'gradebookdatabase_db.dbo.testView' does not have a
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Undertakes_0">
-          <End Role="Assignment" Type="Self.Assignment" Multiplicity="1" />
+          <End Role="Assignment" Type="Self.Assignment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Undertakes" Type="Self.Undertakes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Assignment">
@@ -297,6 +285,20 @@ warning 6002: The table/view 'gradebookdatabase_db.dbo.testView' does not have a
             </Principal>
             <Dependent Role="Undertakes">
               <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ForeignKey_G1">
+          <End Role="GradeDistribution" Type="Self.GradeDistribution" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Assignment" Type="Self.Assignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GradeDistribution">
+              <PropertyRef Name="GradeID" />
+            </Principal>
+            <Dependent Role="Assignment">
+              <PropertyRef Name="GradeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -320,6 +322,19 @@ warning 6002: The table/view 'gradebookdatabase_db.dbo.testView' does not have a
         <Function Name="Assign" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CourseID" Type="int" Mode="In" />
           <Parameter Name="AssignmentID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteGrade" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="GradeID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetColumnNames" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CourseID" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="Description" Type="nvarchar" MaxLength="250" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
         </Function>
         <Function Name="GradeFunction" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CourseID" Type="int" Mode="In" />
@@ -345,6 +360,9 @@ warning 6002: The table/view 'gradebookdatabase_db.dbo.testView' does not have a
             </CollectionType>
           </ReturnType>
         </Function>
+        <Function Name="teacherGradesInt" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CourseID" Type="nvarchar(max)" Mode="In" />
+        </Function>
         <Function Name="teacherGradesProcedure" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CourseID" Type="nvarchar(max)" Mode="In" />
         </Function>
@@ -357,6 +375,18 @@ warning 6002: The table/view 'gradebookdatabase_db.dbo.testView' does not have a
             <CollectionType>
               <RowType>
                 <Property Name="Description" Type="nvarchar" MaxLength="250" />
+                <Property Name="StudentID" Type="int" Nullable="false" />
+                <Property Name="Points" Type="int" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="teacherGradesView2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CourseID" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="AssignmentID" Type="int" Nullable="false" />
                 <Property Name="StudentID" Type="int" Nullable="false" />
                 <Property Name="Points" Type="int" Nullable="false" />
               </RowType>
@@ -381,17 +411,6 @@ warning 6002: The table/view 'gradebookdatabase_db.dbo.testView' does not have a
           <EntitySet Name="Teacher" EntityType="Self.Teacher" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="testTable" EntityType="Self.testTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Undertakes" EntityType="Self.Undertakes" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="teacherGrades" EntityType="Self.teacherGrades" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [teacherGrades].[StudentID] AS [StudentID], 
-    [teacherGrades].[Homework 1] AS [Homework 1], 
-    [teacherGrades].[Homework 2] AS [Homework 2], 
-    [teacherGrades].[Homework 3] AS [Homework 3], 
-    [teacherGrades].[Lab 2] AS [Lab 2], 
-    [teacherGrades].[Spring Final] AS [Spring Final], 
-    [teacherGrades].[Test Lab] AS [Test Lab]
-    FROM [dbo].[teacherGrades] AS [teacherGrades]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="testView" EntityType="Self.testView" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [testView].[StudentID] AS [StudentID]
@@ -440,6 +459,10 @@ warning 6002: The table/view 'gradebookdatabase_db.dbo.testView' does not have a
           <AssociationSet Name="FK_Undertakes_1" Association="Self.FK_Undertakes_1">
             <End Role="Student" EntitySet="Student" />
             <End Role="Undertakes" EntitySet="Undertakes" />
+          </AssociationSet>
+          <AssociationSet Name="ForeignKey_G1" Association="Self.ForeignKey_G1">
+            <End Role="GradeDistribution" EntitySet="GradeDistribution" />
+            <End Role="Assignment" EntitySet="Assignment" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -773,7 +796,18 @@ warning 6002: The table/view 'gradebookdatabase_db.dbo.testView' does not have a
             <Parameter Name="CourseID" Mode="In" Type="Int32" />
             <Parameter Name="AssignmentID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="teacherGrades" EntityType="GradebookDataModel.teacherGrade" />
+          <FunctionImport Name="DeleteGrade">
+          <Parameter Name="GradeID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetColumnNames" IsComposable="true" ReturnType="Collection(String)">
+          <Parameter Name="CourseID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="teacherGradesInt">
+          <Parameter Name="CourseID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="teacherGradesView2" IsComposable="true" ReturnType="Collection(GradebookDataModel.teacherGradesView2_Result)">
+          <Parameter Name="CourseID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="teacherGradesFunction_Result">
           <Property Type="Int32" Name="StudentID" Nullable="false" />
@@ -801,18 +835,11 @@ warning 6002: The table/view 'gradebookdatabase_db.dbo.testView' does not have a
           <Property Type="Int32" Name="Homework_1" Nullable="true" />
           <Property Type="Int32" Name="Lab_1" Nullable="true" />
         </ComplexType>
-        <EntityType Name="teacherGrade">
-          <Key>
-            <PropertyRef Name="StudentID" />
-          </Key>
-          <Property Name="StudentID" Type="Int32" Nullable="false" />
-          <Property Name="Homework_1" Type="Int32" />
-          <Property Name="Homework_2" Type="Int32" />
-          <Property Name="Homework_3" Type="Int32" />
-          <Property Name="Lab_2" Type="Int32" />
-          <Property Name="Spring_Final" Type="Int32" />
-          <Property Name="Test_Lab" Type="Int32" />
-        </EntityType>
+        <ComplexType Name="teacherGradesView2_Result">
+          <Property Type="Int32" Name="AssignmentID" Nullable="false" />
+          <Property Type="Int32" Name="StudentID" Nullable="false" />
+          <Property Type="Int32" Name="Points" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1010,19 +1037,18 @@ warning 6002: The table/view 'gradebookdatabase_db.dbo.testView' does not have a
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="test" FunctionName="GradebookDataModel.Store.test" />
           <FunctionImportMapping FunctionImportName="Assign" FunctionName="GradebookDataModel.Store.Assign" />
-          <EntitySetMapping Name="teacherGrades">
-            <EntityTypeMapping TypeName="GradebookDataModel.teacherGrade">
-              <MappingFragment StoreEntitySet="teacherGrades">
-                <ScalarProperty Name="Test_Lab" ColumnName="Test Lab" />
-                <ScalarProperty Name="Spring_Final" ColumnName="Spring Final" />
-                <ScalarProperty Name="Lab_2" ColumnName="Lab 2" />
-                <ScalarProperty Name="Homework_3" ColumnName="Homework 3" />
-                <ScalarProperty Name="Homework_2" ColumnName="Homework 2" />
-                <ScalarProperty Name="Homework_1" ColumnName="Homework 1" />
+          <FunctionImportMapping FunctionImportName="DeleteGrade" FunctionName="GradebookDataModel.Store.DeleteGrade" />
+          <FunctionImportMapping FunctionImportName="GetColumnNames" FunctionName="GradebookDataModel.Store.GetColumnNames" />
+          <FunctionImportMapping FunctionImportName="teacherGradesInt" FunctionName="GradebookDataModel.Store.teacherGradesInt" />
+          <FunctionImportMapping FunctionImportName="teacherGradesView2" FunctionName="GradebookDataModel.Store.teacherGradesView2">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GradebookDataModel.teacherGradesView2_Result">
+                <ScalarProperty Name="AssignmentID" ColumnName="AssignmentID" />
                 <ScalarProperty Name="StudentID" ColumnName="StudentID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+                <ScalarProperty Name="Points" ColumnName="Points" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
