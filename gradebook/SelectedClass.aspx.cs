@@ -27,45 +27,38 @@ namespace gradebook
             s = Request.QueryString["classID"];
             courseID = Convert.ToInt32(s);
             
-            //Added stuff
-            FileUpload1.Visible = false;
-            btnsave.Visible = false;
-            FilesGrid.Visible = false;
-            studentGrid.Visible = false;
-            teacherPanel.Visible = false;
-            TextBox1.Visible = false;
-            TextBox2.Visible = false;
-            create.Visible = false;
-            limitationsText.Visible = false;
-            textBoxHeader.Visible = false;
-            btnsave2.Visible = false;
-            NameText.Visible = false;
-            fHeader.Visible = false;
-            //
 
             if (!Page.IsPostBack)
-            {
-                BindGrid();
+            {               
                 s = Request.QueryString["classID"];
+                studentGrid.Visible = false;
+                teacherPanel.Visible = false;
+                //Added stuff
+                FileUpload1.Visible = false;
+                btnsave.Visible = false;
+                FilesGrid.Visible = false;
+                TextBox1.Visible = false;
+                TextBox2.Visible = false;
+                create.Visible = false;
+                limitationsText.Visible = false;
+                textBoxHeader.Visible = false;
+                btnsave2.Visible = false;
+                NameText.Visible = false;
+                fHeader.Visible = false;
+                //
                 if (s != null)
                 {
                     courseID = Convert.ToInt32(s);
                     getClassName();
                     if (checkIfTeacher())
                     {
+                        //BindGrid();
                         loadTeacherCourseGradeGrid();
                         loadTeacherCourseAssignmentGrid();
                         loadTeacherCourseStudentGrid();
                         loadTeacherStudentGradesGrid();
                         //Added Stuff
-                        string[] filePaths = Directory.GetFiles(Server.MapPath("~/Uploads"));
-                        List<ListItem> files = new List<ListItem>();
-                        foreach (string filePath in filePaths)
-                        {
-                            files.Add(new ListItem(Path.GetFileName(filePath), filePath));
-                        }
-                        FilesGrid.DataSource = files;
-                        FilesGrid.DataBind();
+                        loadTeacherFileGrid();
                         FileUpload1.Visible = true;
                         btnsave.Visible = true;
                         FilesGrid.Visible = true;
@@ -84,14 +77,7 @@ namespace gradebook
                     {
                         loadStudentCourseAssignmentGrid();
                         //AddedStuff
-                        string[] filePaths = Directory.GetFiles(Server.MapPath("~/Uploads"));
-                        List<ListItem> files = new List<ListItem>();
-                        foreach (string filePath in filePaths)
-                        {
-                            files.Add(new ListItem(Path.GetFileName(filePath), filePath));
-                        }
-                        studentGrid.DataSource = files;
-                        studentGrid.DataBind();
+                        loadStudentFileGrid();
                         studentGrid.Visible = true;
                         teacherPanel.Visible = true;
                         fHeader.Visible = true;
@@ -100,6 +86,39 @@ namespace gradebook
                     }
                 }
             }
+            /*else
+            {
+                if (checkIfTeacher())
+                {
+                    loadTeacherCourseGradeGrid();
+                    loadTeacherCourseAssignmentGrid();
+                    loadTeacherCourseStudentGrid();
+                    loadTeacherStudentGradesGrid();
+                }
+            }*/
+        }
+
+        protected void loadTeacherFileGrid()
+        {
+            string[] filePaths = Directory.GetFiles(Server.MapPath("~/Uploads"));
+            List<ListItem> files = new List<ListItem>();
+            foreach (string filePath in filePaths)
+            {
+                files.Add(new ListItem(Path.GetFileName(filePath), filePath));
+            }
+            FilesGrid.DataSource = files;
+            FilesGrid.DataBind();
+        }
+        protected void loadStudentFileGrid()
+        {
+            string[] filePaths = Directory.GetFiles(Server.MapPath("~/Uploads"));
+            List<ListItem> files = new List<ListItem>();
+            foreach (string filePath in filePaths)
+            {
+                files.Add(new ListItem(Path.GetFileName(filePath), filePath));
+            }
+            studentGrid.DataSource = files;
+            studentGrid.DataBind();
         }
 
         void BindGrid()
@@ -305,7 +324,6 @@ namespace gradebook
         {
             if (e.CommandName == "InsertNew")
             {
-
                 courseID = Convert.ToInt32(Request.QueryString["classID"]);
                 string category = ((TextBox)teacherCourseGradeGrid.FooterRow.FindControl("txtCategory")).Text;
                 decimal weight = Convert.ToDecimal(((TextBox)teacherCourseGradeGrid.FooterRow.FindControl("txtWeight")).Text);
@@ -496,7 +514,9 @@ namespace gradebook
         {
             string filePath = (sender as LinkButton).CommandArgument;
             File.Delete(filePath);
-            Response.Redirect(Request.Url.AbsoluteUri);
+            //Response.Redirect(Request.Url.AbsoluteUri);
+            loadStudentFileGrid();
+            loadTeacherFileGrid();
         }
 
         protected void btnsave_Click(object sender, EventArgs e)
@@ -523,7 +543,8 @@ namespace gradebook
                             //Showing the file information
                             sb.AppendFormat("<br/> File Saved.");
                             Label1.Text = sb.ToString();
-                            Response.Redirect(Request.Url.AbsoluteUri);
+                            //Response.Redirect(Request.Url.AbsoluteUri);
+                            loadTeacherFileGrid();
                         }
                         else
                         {
@@ -559,7 +580,7 @@ namespace gradebook
             string fileName = TextBox1.Text.ToString();
             if (fileName.Length > 25)
             {
-                Response.Redirect(Request.Url.AbsoluteUri);
+                //Response.Redirect(Request.Url.AbsoluteUri);
                 Label1.Text = "Not 25 characters.";
             }
             else
@@ -576,7 +597,8 @@ namespace gradebook
                         Byte[] info = new UTF8Encoding(true).GetBytes(TextBox2.Text.ToString());
                         fs.Write(info, 0, info.Length);
                     }
-                    Response.Redirect(Request.Url.AbsoluteUri);
+                    //Response.Redirect(Request.Url.AbsoluteUri);
+                    loadTeacherFileGrid();
                 }
                 catch (Exception RIOT)
                 {

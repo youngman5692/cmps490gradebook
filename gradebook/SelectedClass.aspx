@@ -4,67 +4,65 @@
     <h1>Class Page</h1>
 
 
+    <asp:UpdatePanel runat="server">
+        <ContentTemplate>
+            <asp:Label runat="server" ID="Label1" Text="Login to see your grades." Font-Size="12" />
+            <h3 id="fHeader" runat="server">Files</h3>
+            <asp:GridView ID="FilesGrid" runat="server" AutoGenerateColumns="false" CssClass="table table-striped table-bordered table-condensed">
+                <Columns>
+                    <asp:BoundField DataField="Text" HeaderText="File Name" />
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <asp:LinkButton ID="lnkDownload" runat="server" CommandArgument='<%# Eval("Value") %>' OnClick="get" Text="Download"></asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <asp:LinkButton ID="Remove" runat="server" Text="Delete" CommandArgument='<%# Eval("Value") %>' OnClick="deleteFile"></asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                </Columns>
 
-    <asp:Label runat="server" ID="Label1" Text="Login to see your grades." Font-Size="12" />
-    <h3 id="fHeader" runat="server">Files</h3>
-    <asp:GridView ID="FilesGrid" runat="server" AutoGenerateColumns="false" CssClass="table table-striped table-bordered table-condensed">
-        <Columns>
-            <asp:BoundField DataField="Text" HeaderText="File Name" />
-            <asp:TemplateField>
-                <ItemTemplate>
-                    <asp:LinkButton ID="lnkDownload" runat="server" CommandArgument='<%# Eval("Value") %>' OnClick="get" Text="Download"></asp:LinkButton>
-                </ItemTemplate>
-            </asp:TemplateField>
-            <asp:TemplateField>
-                <ItemTemplate>
-                    <asp:LinkButton ID="Remove" runat="server" Text="Delete" CommandArgument='<%# Eval("Value") %>' OnClick="deleteFile"></asp:LinkButton>
-                </ItemTemplate>
-            </asp:TemplateField>
-        </Columns>
+            </asp:GridView>
+            <asp:GridView ID="studentGrid" runat="server" AutoGenerateColumns="false" CssClass="table table-striped table-bordered table-condensed">
+                <Columns>
+                    <asp:BoundField DataField="Text" HeaderText="File Name" />
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <asp:LinkButton ID="lnkDownload" runat="server" CommandArgument='<%# Eval("Value") %>' OnClick="get" Text="Download"></asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                </Columns>
 
-    </asp:GridView>
-    <asp:GridView ID="studentGrid" runat="server" AutoGenerateColumns="false" CssClass="table table-striped table-bordered table-condensed">
-        <Columns>
-            <asp:BoundField DataField="Text" HeaderText="File Name" />
-            <asp:TemplateField>
-                <ItemTemplate>
-                    <asp:LinkButton ID="lnkDownload" runat="server" CommandArgument='<%# Eval("Value") %>' OnClick="get" Text="Download"></asp:LinkButton>
-                </ItemTemplate>
-            </asp:TemplateField>
-        </Columns>
-
-    </asp:GridView>
-    <asp:Label ID="Label2" runat="server"></asp:Label>
-    <br />
-    <asp:FileUpload ID="FileUpload1" runat="server" />
-    <br />
-    <br />
-    <asp:Button ID="btnsave" runat="server" OnClick="btnsave_Click" Text="Save" Style="width: 85px" />
-    <br />
-    <br />
-    <h2 id="create" runat="server">Create .txt file:</h2>
-    <h3 id="NameText" runat="server">File Name:</h3>
-    <p runat="server" id="limitationsText">Files are saved as .txt. 25 character limit on filenames.</p>
-    <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
-    <h3 id="textBoxHeader" runat="server">Text:</h3>
-    <asp:TextBox ID="TextBox2" runat="server" Height="120px" TextMode="MultiLine" Width="486px"></asp:TextBox>
-    <br />
-    <asp:Button ID="btnsave2" runat="server" Visible="true" OnClick="saveFile" Text="save"/>
-    <br />
-    <br />
-
+            </asp:GridView>
+            <asp:Label ID="Label2" runat="server"></asp:Label>
+            <br />
+            <asp:FileUpload ID="FileUpload1" runat="server" />
+            <br />
+            <br />
+            <asp:Button ID="btnsave" runat="server" OnClick="btnsave_Click" Text="Save" Style="width: 85px" />
+            <br />
+            <br />
+            <h2 id="create" runat="server">Create .txt file:</h2>
+            <h3 id="NameText" runat="server">File Name:</h3>
+            <p runat="server" id="limitationsText">Files are saved as .txt. 25 character limit on filenames.</p>
+            <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+            <h3 id="textBoxHeader" runat="server">Text:</h3>
+            <asp:TextBox ID="TextBox2" runat="server" Height="120px" TextMode="MultiLine" Width="486px"></asp:TextBox>
+            <br />
+            <asp:Button ID="btnsave2" runat="server" Visible="true" OnClick="saveFile" Text="save" />
+            <br />
+            <br />
+            </ContentTemplate>
+    </asp:UpdatePanel>
 
 
     <asp:UpdatePanel ID="teacherPanel" runat="server">
-        <Triggers>
-            <asp:AsyncPostBackTrigger ControlID="teacherCourseGradeGrid" />
-            <asp:AsyncPostBackTrigger ControlID="teacherCourseAssignmentGrid" />
-        </Triggers>
         <ContentTemplate>
             <asp:Label runat="server" ID="ClassLabel" Text="Test" Font-Size="32" />
             <h3>Grade Weights</h3>
             <asp:GridView ID="teacherCourseGradeGrid" runat="server" EnableViewState="true" AutoGenerateColumns="false" ShowFooter="true" CssClass="table table-striped table-bordered table-condensed table-hover"
-                OnRowEditing="gridSample_RowEditing" onrowdeleting="gridSample_RowDeleting" OnRowCommand="gridSample_RowCommand" DataKeyNames="GradeID" 
+                OnRowEditing="gridSample_RowEditing" OnRowDeleting="gridSample_RowDeleting" OnRowCommand="gridSample_RowCommand" DataKeyNames="GradeID"
                 OnRowUpdating="gridSample_RowUpdating" OnRowCancelingEdit="gridSample_RowCancelingEdit">
                 <Columns>
                     <asp:TemplateField>
@@ -73,7 +71,7 @@
                                 CommandArgument=''><img src="http://cs.csubak.edu/~cyoung/490/Icons/Edit.png" /></asp:LinkButton>
                             <asp:LinkButton ID="lnkRemove" runat="server"
                                 CommandArgument=''
-                                OnClientClick = "return confirm('Do you want to delete?')"
+                                OnClientClick="return confirm('Do you want to delete?')"
                                 Text="" CommandName="Delete"><img src="http://cs.csubak.edu/~cyoung/490/Icons/Delete.gif" /></asp:LinkButton>
                         </ItemTemplate>
                         <EditItemTemplate>
@@ -83,7 +81,7 @@
                                 CommandArgument=''><img src="http://cs.csubak.edu/~cyoung/490/Icons/Undo.png" /></asp:LinkButton>
                         </EditItemTemplate>
                         <FooterTemplate>
-                            <asp:LinkButton ID="lnkInsert" runat="server" Text="" CommandName="InsertNew" ToolTip="Add New Entry"
+                            <asp:LinkButton ID="lnkInsert" runat="server" ClientIDMode="AutoID" Text="" CommandName="InsertNew" ToolTip="Add New Entry"
                                 CommandArgument=''><img src="http://cs.csubak.edu/~cyoung/490/Icons/Insert.png" /></asp:LinkButton>
                         </FooterTemplate>
                     </asp:TemplateField>
