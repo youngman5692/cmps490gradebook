@@ -6,7 +6,7 @@
             <asp:DropDownList ID="IndexDropDownList" runat="server" AutoPostBack="true" OnSelectedIndexChanged="IndexDropDownList_SelectedIndexChanged"></asp:DropDownList>
             <br />
             <asp:Panel ID="studentView" runat="server">
-                <asp:UpdatePanel ID="studentPanel" runat="server" DefaultButton="searchStudents" UpdateMode="Always">
+                <asp:UpdatePanel ID="studentPanel" runat="server" UpdateMode="Always">
                     <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="studentGridView" EventName="SelectedIndexChanged" />
                     </Triggers>
@@ -59,7 +59,7 @@
                     </ContentTemplate>
                 </asp:UpdatePanel>
                 <br />
-                <asp:UpdatePanel ID="search" runat="server" DefaultButton="Button1">
+                <asp:UpdatePanel ID="search" runat="server">
                     <ContentTemplate>
                         <asp:DropDownList ID="TermDropDownList" runat="server" AutoPostBack="true" OnSelectedIndexChanged="TermDropDownList_SelectedIndexChanged">
                         </asp:DropDownList>

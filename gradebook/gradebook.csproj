@@ -303,7 +303,6 @@
     <Content Include="Global.asax" />
     <Content Include="SelectedClass.aspx" />
     <Content Include="Site.Master" />
-    <Content Include="Uploads\TextFile1.txt" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -464,6 +463,9 @@
     <Compile Include="DAL2\C__MigrationHistory.cs">
       <DependentUpon>GradebookDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL2\EmptyTable.cs">
+      <DependentUpon>GradebookDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL2\GradebookDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -575,6 +577,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

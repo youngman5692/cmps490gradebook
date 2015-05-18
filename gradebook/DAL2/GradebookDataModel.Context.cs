@@ -40,6 +40,7 @@ namespace gradebook.DAL2
         public virtual DbSet<testTable> testTables { get; set; }
         public virtual DbSet<Undertake> Undertakes { get; set; }
         public virtual DbSet<testView> testViews { get; set; }
+        public virtual DbSet<EmptyTable> EmptyTables { get; set; }
     
         public virtual int AddClass(string number, string term, Nullable<int> year, string description, Nullable<int> teacher)
         {

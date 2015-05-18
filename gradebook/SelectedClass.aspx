@@ -114,7 +114,7 @@
 
 
             <h3>Assignments</h3>
-            <asp:GridView ID="teacherCourseAssignmentGrid" runat="server" AutoGenerateColumns="false" CssClass="table table-striped table-bordered table-condensed"
+            <asp:GridView ID="teacherCourseAssignmentGrid" runat="server" ShowHeaderWhenEmpty="true" AutoGenerateColumns="false" CssClass="table table-striped table-bordered table-condensed"
                 ShowFooter="true" OnRowEditing="teacherAssignment_RowEditing" OnRowDeleting="teacherAssignment_RowDeleting" OnRowCommand="teacherAssignment_RowCommand" DataKeyNames="AssignmentID"
                 OnRowUpdating="teacherAssignment_RowUpdating" OnRowCancelingEdit="teacherAssignment_RowCancelingEdit" onrowdatabound="teacherAssignment_RowDataBound">
                 <Columns>
@@ -139,7 +139,7 @@
                         </FooterTemplate>
                     </asp:TemplateField>
 
-                    <asp:TemplateField HeaderText="GradeID">
+                    <asp:TemplateField HeaderText="Category">
                         <ItemTemplate>
                             <asp:Label ID="lblGrade" runat="server" Text='<%# Eval("Category") %>'></asp:Label>
                         </ItemTemplate>
@@ -186,6 +186,7 @@
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
+                
             </asp:GridView>
 
 
@@ -197,12 +198,16 @@
                     <asp:BoundField DataField="Email" HeaderText="Email" />
                 </Columns>
             </asp:GridView>
+            
+        </ContentTemplate>
+    </asp:UpdatePanel>
 
+    <asp:UpdatePanel ID="teacherGrades" runat="server">
+        <ContentTemplate>
             <h3>Grades</h3>
             <asp:GridView ID="teacherStudentGradesGrid" runat="server" AutoGenerateColumns="false" CssClass="table table-striped table-bordered table-condensed">
             </asp:GridView>
-            <asp:Button ID="GradeUpdateButton" runat="server" Text="Update" />
-
+            <asp:Button ID="GradeUpdateButton" runat="server" Text="Update" onclick="GradeUpdateButton_Click"/>
         </ContentTemplate>
     </asp:UpdatePanel>
 

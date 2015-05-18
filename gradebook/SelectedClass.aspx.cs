@@ -33,6 +33,7 @@ namespace gradebook
                 s = Request.QueryString["classID"];
                 studentGrid.Visible = false;
                 teacherPanel.Visible = false;
+                teacherGrades.Visible = false;
                 //Added stuff
                 FileUpload1.Visible = false;
                 btnsave.Visible = false;
@@ -63,6 +64,7 @@ namespace gradebook
                         btnsave.Visible = true;
                         FilesGrid.Visible = true;
                         teacherPanel.Visible = true;
+                        teacherGrades.Visible = true;
                         TextBox1.Visible = true;
                         TextBox2.Visible = true;
                         create.Visible = true;
@@ -86,16 +88,6 @@ namespace gradebook
                     }
                 }
             }
-            /*else
-            {
-                if (checkIfTeacher())
-                {
-                    loadTeacherCourseGradeGrid();
-                    loadTeacherCourseAssignmentGrid();
-                    loadTeacherCourseStudentGrid();
-                    loadTeacherStudentGradesGrid();
-                }
-            }*/
         }
 
         protected void loadTeacherFileGrid()
@@ -121,7 +113,7 @@ namespace gradebook
             studentGrid.DataBind();
         }
 
-        void BindGrid()
+        /*void BindGrid()
         {
             using (var context = new GradebookDataEntities())
             {
@@ -153,7 +145,7 @@ namespace gradebook
                 }
             }
             loadTeacherCourseAssignmentGrid();
-        }
+        }*/
 
         protected void getClassName()
         {
@@ -201,8 +193,30 @@ namespace gradebook
             {
                 var gradeDistribution = (from c in context.Courses from g in c.GradeDistributions where c.CourseID == courseID select new { g.GradeID, g.Category, g.Weight }).ToList();
 
-                teacherCourseGradeGrid.DataSource = gradeDistribution;
-                teacherCourseGradeGrid.DataBind();
+                if (gradeDistribution.Any())
+                {
+                    teacherCourseGradeGrid.DataSource = gradeDistribution;
+                    teacherCourseGradeGrid.DataBind();
+                }
+                else
+                {
+                    var obj = new List<GradeDistribution>();
+                    obj.Add(new GradeDistribution());
+                    // Bind the DataTable which contain a blank row to the GridView
+                    teacherCourseGradeGrid.DataSource = obj;
+                    teacherCourseGradeGrid.DataBind();
+                    int columnsCount = teacherCourseGradeGrid.Columns.Count;
+                    teacherCourseGradeGrid.Rows[0].Cells.Clear();// clear all the cells in the row
+                    teacherCourseGradeGrid.Rows[0].Cells.Add(new TableCell()); //add a new blank cell
+                    teacherCourseGradeGrid.Rows[0].Cells[0].ColumnSpan = columnsCount; //set the column span to the new added cell
+
+                    //You can set the styles here
+                    teacherCourseGradeGrid.Rows[0].Cells[0].HorizontalAlign = HorizontalAlign.Center;
+                    teacherCourseGradeGrid.Rows[0].Cells[0].ForeColor = System.Drawing.Color.Red;
+                    teacherCourseGradeGrid.Rows[0].Cells[0].Font.Bold = true;
+                    //set No Results found to the new added cell
+                    teacherCourseGradeGrid.Rows[0].Cells[0].Text = "NO RESULT FOUND!";
+                }
             }
             loadTeacherCourseAssignmentGrid();
         }
@@ -213,9 +227,21 @@ namespace gradebook
             {
                 var query = (from c in context.Courses from grade in c.GradeDistributions from assignment in grade.Assignments where c.CourseID == courseID select new {assignment.AssignmentID, assignment.Description, assignment.PointsPossible, grade.Category}).ToList();
 
-                teacherCourseAssignmentGrid.DataSource = query;
-                teacherCourseAssignmentGrid.DataBind();
+                if (query.Any())
+                {
+                    teacherCourseAssignmentGrid.DataSource = query;
+                    teacherCourseAssignmentGrid.DataBind();
+                    teacherCourseAssignmentGrid.Rows[0].Visible = true;
+                }
+                else
+                {
+                    var query2 = from c in context.EmptyTables select c;
+                    teacherCourseAssignmentGrid.DataSource = query2.ToList();
+                    teacherCourseAssignmentGrid.DataBind();
+                    teacherCourseAssignmentGrid.Rows[0].Visible = false;
+                }
             }
+            loadTeacherStudentGradesGrid();
         }
 
         protected void loadTeacherCourseStudentGrid()
@@ -251,9 +277,15 @@ namespace gradebook
 
             sqlconn.Open();
 
-            dynamicBoundFields();
-            teacherStudentGradesGrid.DataSource = cmd.ExecuteReader();
-            teacherStudentGradesGrid.DataBind();
+            teacherStudentGradesGrid.Columns.Clear();
+
+            var read = cmd.ExecuteReader();
+            //if (read.HasRows)
+           // {
+                dynamicBoundFields();
+                teacherStudentGradesGrid.DataSource = read;
+                teacherStudentGradesGrid.DataBind();
+           // }
 
             sqlconn.Close();
 
@@ -279,7 +311,7 @@ namespace gradebook
 
             using(var context = new GradebookDataEntities())
             {
-                var query = (from x in context.teacherGradesView2(2012) select x.AssignmentID).Distinct();
+                var query = (from x in context.teacherGradesView2(courseID) select x.AssignmentID).Distinct();
                 foreach(var name in query)
                 {
                     headers.Add(name.ToString());
@@ -326,7 +358,8 @@ namespace gradebook
                 //context.Assignments.Where(x => x.GradeID == gradeID).Delete();
                 context.GradeDistributions.Remove(obj);
                 context.SaveChanges();
-                BindGrid();
+                //BindGrid();
+                loadTeacherCourseGradeGrid();
                 loadTeacherStudentGradesGrid();
             }
         }
@@ -343,19 +376,22 @@ namespace gradebook
                 {
                     var result = context.AddGradeDistribution(category, weight, courseID);
                 }
-                BindGrid();
+                //BindGrid();
+                loadTeacherCourseGradeGrid();
             }
         }
 
         protected void gridSample_RowEditing(object sender, GridViewEditEventArgs e)
         {
             teacherCourseGradeGrid.EditIndex = e.NewEditIndex;
-            BindGrid();
+            //BindGrid();
+            loadTeacherCourseGradeGrid();
         }
         protected void gridSample_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
         {
             teacherCourseGradeGrid.EditIndex = -1;
-            BindGrid();
+            //BindGrid();
+            loadTeacherCourseGradeGrid();
         }
 
         protected void gridSample_RowUpdating(object sender, GridViewUpdateEventArgs e)
@@ -373,7 +409,8 @@ namespace gradebook
                     obj.Weight = Convert.ToDecimal(txtWeight.Text);
                     context.SaveChanges();
                     teacherCourseGradeGrid.EditIndex = -1;
-                    BindGrid();
+                    //BindGrid();
+                    loadTeacherCourseGradeGrid();
                 }
             }
         }
@@ -421,6 +458,7 @@ namespace gradebook
                 context.Assignments.Remove(obj);
                 context.SaveChanges();
                 loadTeacherCourseAssignmentGrid();
+                loadTeacherStudentGradesGrid();
             }
         }
 
@@ -662,6 +700,11 @@ namespace gradebook
                 }
 
             }
+        }
+
+        protected void GradeUpdateButton_Click(object sender, EventArgs e)
+        {
+            loadTeacherStudentGradesGrid();
         }
     }
 }
