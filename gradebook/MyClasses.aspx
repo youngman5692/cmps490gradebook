@@ -1,14 +1,17 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="MyClasses.aspx.cs" Inherits="gradebook.MyClasses" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="MyClasses.aspx.cs" Inherits="gradebook.MyClasses" EnableEventValidation="false"%>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <h2>My Classes</h2>
     <asp:Label ID="loggedIn" runat="server" Text="Login to See Your Current Classes!" Visible="true"></asp:Label>
 
     <asp:UpdatePanel ID="studentPanel" runat="server" UpdateMode="Always">
         <ContentTemplate>
-            <asp:GridView ID="studentCourseGridView" runat="server" autogeneratecolumns="false" CssClass="table table-striped table-bordered table-condensed">
+            <asp:GridView ID="studentCourseGridView" runat="server" autogeneratecolumns="false" DataKeyNames="CourseID" CssClass="table table-striped table-bordered table-condensed"
+                OnRowDataBound="studentCourseGridView_OnRowDataBound" OnSelectedIndexChanged="studentCourseGridView_SelectedIndexChanged" >
                 <Columns>
                     <asp:BoundField DataField="CourseNumber" HeaderText="Course" />
                     <asp:BoundField DataField="Description" HeaderText="Course Description" />
+                    <asp:BoundField DataField="Year" HeaderText="Year" />
+                    <asp:BoundField DataField="Term" HeaderText="Term" />
                 </Columns>
             </asp:GridView>
 
@@ -22,10 +25,13 @@
             <asp:AsyncPostBackTrigger ControlID="registerCourseButton" EventName="Click" />
         </Triggers>
         <ContentTemplate>
-            <asp:GridView ID="teacherCourseGridView" runat="server" AutoGenerateColumns="false" CssClass="table table-striped table-bordered table-condensed">
+            <asp:GridView ID="teacherCourseGridView" runat="server" AutoGenerateColumns="false" DataKeyNames="CourseID" CssClass="table table-striped table-bordered table-condensed"
+                OnRowDataBound="teacherCourseGridView_OnRowDataBound" OnSelectedIndexChanged="teacherCourseGridView_SelectedIndexChanged" >
                 <Columns>
                     <asp:BoundField DataField="CourseNumber" HeaderText="Course" />
                     <asp:BoundField DataField="Description" HeaderText="Course Description" />
+                    <asp:BoundField DataField="Year" HeaderText="Year" />
+                    <asp:BoundField DataField="Term" HeaderText="Term" />
                 </Columns>
             </asp:GridView>
             <asp:ValidationSummary runat="server" CssClass="text-danger" />

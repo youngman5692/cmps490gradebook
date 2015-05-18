@@ -33,7 +33,7 @@
                         <br />
                         <asp:Label ID="studentLabel" runat="server" Text="Label"></asp:Label>
                         <br />
-                        <asp:GridView ID="courseGridView" runat="server" AutoGenerateColumns="false" BackColor="White" BorderColor="#DEDFDE" BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black" GridLines="Vertical" OnRowCreated="courseGridView_RowCreated" OnSelectedIndexChanged="courseGridView_SelectedIndexChanged"> 
+                        <asp:GridView ID="courseGridView" runat="server" AutoGenerateColumns="false" CssClass="table table-striped table-bordered table-condensed" GridLines="Vertical" OnRowCreated="courseGridView_RowCreated" OnSelectedIndexChanged="courseGridView_SelectedIndexChanged"> 
                             <AlternatingRowStyle BackColor="White" />
                             <FooterStyle BackColor="#CCCC99" />
                             <HeaderStyle BackColor="#6B696B" Font-Bold="True" ForeColor="White" />

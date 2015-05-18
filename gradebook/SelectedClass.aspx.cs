@@ -79,7 +79,7 @@ namespace gradebook
                         //AddedStuff
                         loadStudentFileGrid();
                         studentGrid.Visible = true;
-                        teacherPanel.Visible = true;
+                        teacherPanel.Visible = false;
                         fHeader.Visible = true;
                         loadStudentCourseAssignmentGrid();
                         //

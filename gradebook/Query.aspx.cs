@@ -161,7 +161,7 @@ namespace gradebook
             
         protected void studentGridView_SelectedIndexChanged(Object sender, EventArgs e)
         {
-            string email = studentGridView.Rows[studentGridView.SelectedIndex].Cells[0].Text.ToString(); ;
+            string email = studentGridView.Rows[studentGridView.SelectedIndex].Cells[0].Text.ToString();
             using (var context = new GradebookDataEntities())
             {
                 var l2equery = from s in context.Students where s.Email.Contains(email) select s.Courses;
@@ -191,7 +191,6 @@ namespace gradebook
         protected void courseGridView_SelectedIndexChanged(Object sender, EventArgs e)
         {
             GridViewRow row = courseGridView.Rows[courseGridView.SelectedIndex];
-
             toggleDelete(courseGridView.SelectedIndex);
         }
 

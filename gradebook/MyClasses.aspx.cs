@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Drawing;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
@@ -147,6 +148,38 @@ namespace gradebook
                     context.SaveChanges();
                 }
             studentCourseGridViewFill();
+        }
+
+        protected void teacherCourseGridView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int courseID = Convert.ToInt32(teacherCourseGridView.SelectedDataKey.Value);
+            Response.Redirect("SelectedClass?classid=" + courseID);
+        }
+
+        protected void teacherCourseGridView_OnRowDataBound(object sender, System.Web.UI.WebControls.GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                e.Row.Attributes["onclick"] = this.Page.ClientScript.GetPostBackClientHyperlink(teacherCourseGridView, "Select$" + e.Row.RowIndex);
+                e.Row.ToolTip = "Click to select this row.";
+                e.Row.Attributes["style"] = "cursor:pointer";
+            }
+        }
+
+        protected void studentCourseGridView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int courseID = Convert.ToInt32(studentCourseGridView.SelectedDataKey.Value);
+            Response.Redirect("SelectedClass?classid=" + courseID);
+        }
+
+        protected void studentCourseGridView_OnRowDataBound(object sender, System.Web.UI.WebControls.GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                e.Row.Attributes["onclick"] = this.Page.ClientScript.GetPostBackClientHyperlink(studentCourseGridView, "Select$" + e.Row.RowIndex);
+                e.Row.ToolTip = "Click to select this row.";
+                e.Row.Attributes["style"] = "cursor:pointer";
+            }
         }
     }
 }
